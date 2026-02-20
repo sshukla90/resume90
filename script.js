@@ -124,32 +124,31 @@ function buildNetworkGraph() {
     const W = 560, H = 560;
     const cx = W / 2, cy = H / 2;
 
-    // Feather-style outline icon paths (24×24 viewBox)
+    // Simple Icons CDN: https://cdn.simpleicons.org/[slug]/[hexcolor]
+    // Feather-style paths for concept nodes (not brands)
     const iconPaths = {
-        cloud: 'M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z',
         shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
         globe: 'M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 0v20M2 12h20M4.9 4.9C7 7 9.4 8 12 8s5-1 7.1-3.1M4.9 19.1C7 17 9.4 16 12 16s5 1 7.1 3.1',
-        code: 'M10 20l4-16M4 9L0 12l4 3M20 9l4 3-4 3',
         lock: 'M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zM7 11V7a5 5 0 0 1 10 0v4',
-        prism: 'M12 2L2 21h20L12 2zm0 5l6 12H6l6-12z',
     };
 
-    // Node definitions — 12 nodes on 560×560 canvas
-    // icon nodes: icon path rendered inside circle + label below icon
-    // text nodes: label text centred in circle
+    // Node definitions
+    // cdnSlug  → Simple Icons CDN (real brand logos, free/CC0)
+    // icon     → inline SVG path for concept nodes
+    // (neither) → bold text only for protocol names
     const nodes = [
         { id: 'core', x: cx, y: cy, r: 33, label: 'CORE', color: '#3b8bff' },
-        { id: 'cf', x: cx, y: cy - 175, r: 27, label: 'CF', color: '#f6821f', icon: 'cloud' },
-        { id: 'waf', x: cx + 108, y: cy - 140, r: 19, label: 'WAF', color: '#ef4444', icon: 'shield' },
-        { id: 'dns', x: cx - 108, y: cy - 140, r: 18, label: 'DNS', color: '#06b6d4', icon: 'globe' },
+        { id: 'cf', x: cx, y: cy - 175, r: 30, label: 'Cloudflare', color: '#f6821f', cdnSlug: 'cloudflare' },
+        { id: 'waf', x: cx + 108, y: cy - 140, r: 20, label: 'WAF', color: '#ef4444', icon: 'shield' },
+        { id: 'dns', x: cx - 108, y: cy - 140, r: 19, label: 'DNS', color: '#06b6d4', icon: 'globe' },
         { id: 'bgp', x: cx + 172, y: cy - 68, r: 21, label: 'BGP', color: '#00e5ff' },
         { id: 'ospf', x: cx + 182, y: cy + 28, r: 17, label: 'OSPF', color: '#a78bfa' },
         { id: 'mpls', x: cx + 118, y: cy + 168, r: 19, label: 'MPLS', color: '#f472b6' },
-        { id: 'azure', x: cx - 118, y: cy + 168, r: 20, label: 'AZURE', color: '#0ea5e9', icon: 'prism' },
-        { id: 'aws', x: cx - 182, y: cy + 28, r: 19, label: 'AWS', color: '#fb923c', icon: 'cloud' },
+        { id: 'azure', x: cx - 118, y: cy + 168, r: 22, label: 'Azure', color: '#0078d4', cdnSlug: 'microsoftazure' },
+        { id: 'aws', x: cx - 182, y: cy + 28, r: 21, label: 'AWS', color: '#ff9900', cdnSlug: 'amazonwebservices' },
         { id: 'sec', x: cx - 172, y: cy - 68, r: 18, label: 'F5/FW', color: '#facc15', icon: 'lock' },
-        { id: 'py', x: cx + 65, y: cy - 170, r: 15, label: 'Python', color: '#60a5fa', icon: 'code' },
-        { id: 'cloud', x: cx, y: cy + 182, r: 17, label: 'CLOUD', color: '#34d399', icon: 'cloud' },
+        { id: 'py', x: cx + 65, y: cy - 170, r: 18, label: 'Python', color: '#3776ab', cdnSlug: 'python' },
+        { id: 'cloud', x: cx, y: cy + 182, r: 17, label: 'CLOUD', color: '#34d399' },
     ];
 
     const edges = [
@@ -161,11 +160,11 @@ function buildNetworkGraph() {
         ['aws', 'cloud'],
     ];
 
-    // Build SVG
+    // Build SVG — no fixed width/height, CSS controls rendered size via viewBox
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    svg.setAttribute('width', W);
-    svg.setAttribute('height', H);
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
 
     // Defs: glow filters
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
@@ -249,8 +248,36 @@ function buildNetworkGraph() {
         g.appendChild(glow);
         g.appendChild(circle);
 
-        if (n.icon && iconPaths[n.icon]) {
-            // Icon rendered in upper portion of circle
+        if (n.cdnSlug) {
+            // Real brand logo via Simple Icons CDN (CC0, free)
+            // URL: https://cdn.simpleicons.org/[slug]/[hexcolor-no-#]
+            const hexColor = n.color.replace('#', '');
+            const cdnUrl = `https://cdn.simpleicons.org/${n.cdnSlug}/${hexColor}`;
+            const iconSize = n.r * 1.1;
+            const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+            img.setAttribute('href', cdnUrl);
+            img.setAttribute('x', n.x - iconSize / 2);
+            img.setAttribute('y', n.y - iconSize / 2 - n.r * 0.15);
+            img.setAttribute('width', iconSize);
+            img.setAttribute('height', iconSize);
+            img.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            g.appendChild(img);
+
+            // Label below icon, inside circle
+            const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            lbl.setAttribute('x', n.x);
+            lbl.setAttribute('y', n.y + n.r * 0.72);
+            lbl.setAttribute('text-anchor', 'middle');
+            lbl.setAttribute('dominant-baseline', 'middle');
+            lbl.setAttribute('fill', n.color);
+            lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
+            lbl.setAttribute('font-size', Math.max(5, Math.round(n.r * 0.28)));
+            lbl.setAttribute('font-weight', '700');
+            lbl.textContent = n.label;
+            g.appendChild(lbl);
+
+        } else if (n.icon && iconPaths[n.icon]) {
+            // Concept icon — inline SVG path (shield / globe / lock)
             const iconSize = n.r * 1.15;
             const iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             iconSvg.setAttribute('x', n.x - iconSize / 2);
@@ -269,7 +296,7 @@ function buildNetworkGraph() {
             iconSvg.appendChild(ip);
             g.appendChild(iconSvg);
 
-            // Label below icon inside circle
+            // Label below icon, inside circle
             const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             lbl.setAttribute('x', n.x);
             lbl.setAttribute('y', n.y + n.r * 0.68);
@@ -281,8 +308,9 @@ function buildNetworkGraph() {
             lbl.setAttribute('font-weight', '700');
             lbl.textContent = n.label;
             g.appendChild(lbl);
+
         } else {
-            // Text-only node (protocols)
+            // Text-only node (CORE + protocol names: BGP, OSPF, MPLS, CLOUD)
             const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             text.setAttribute('x', n.x); text.setAttribute('y', n.y + 1);
             text.setAttribute('text-anchor', 'middle');
@@ -294,6 +322,7 @@ function buildNetworkGraph() {
             text.textContent = n.label;
             g.appendChild(text);
         }
+
 
         nodeGroup.appendChild(g);
     });
