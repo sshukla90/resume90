@@ -121,27 +121,32 @@ function buildNetworkGraph() {
     const container = document.getElementById('network-graph');
     if (!container) return;
 
-    const W = 400, H = 400;
+    const W = 480, H = 480;
     const cx = W / 2, cy = H / 2;
 
-    // Node definitions
+    // Node definitions — 12 nodes across 480×480 canvas
     const nodes = [
-        { id: 'core', x: cx, y: cy, r: 28, label: 'CORE', color: '#3b8bff' },
-        { id: 'cf', x: cx, y: cy - 140, r: 22, label: 'CF', color: '#f6821f' },
-        { id: 'bgp', x: cx + 100, y: cy - 90, r: 18, label: 'BGP', color: '#00e5ff' },
-        { id: 'ospf', x: cx + 130, y: cy + 20, r: 16, label: 'OSPF', color: '#a78bfa' },
-        { id: 'mpls', x: cx + 80, y: cy + 120, r: 18, label: 'MPLS', color: '#f472b6' },
-        { id: 'cloud', x: cx - 80, y: cy + 120, r: 18, label: 'CLOUD', color: '#34d399' },
-        { id: 'aws', x: cx - 130, y: cy + 20, r: 16, label: 'AWS', color: '#fb923c' },
-        { id: 'sec', x: cx - 100, y: cy - 90, r: 16, label: 'F5/FW', color: '#facc15' },
-        { id: 'py', x: cx + 45, y: cy - 135, r: 13, label: 'Python', color: '#60a5fa' },
+        { id: 'core', x: cx, y: cy, r: 30, label: 'CORE', color: '#3b8bff' },
+        { id: 'cf', x: cx, y: cy - 152, r: 24, label: 'CF', color: '#f6821f' },
+        { id: 'waf', x: cx + 88, y: cy - 118, r: 16, label: 'WAF', color: '#ef4444' },
+        { id: 'dns', x: cx - 88, y: cy - 118, r: 15, label: 'DNS', color: '#06b6d4' },
+        { id: 'bgp', x: cx + 148, y: cy - 58, r: 18, label: 'BGP', color: '#00e5ff' },
+        { id: 'ospf', x: cx + 162, y: cy + 50, r: 15, label: 'OSPF', color: '#a78bfa' },
+        { id: 'mpls', x: cx + 102, y: cy + 150, r: 17, label: 'MPLS', color: '#f472b6' },
+        { id: 'azure', x: cx - 102, y: cy + 150, r: 18, label: 'AZURE', color: '#0ea5e9' },
+        { id: 'aws', x: cx - 162, y: cy + 50, r: 16, label: 'AWS', color: '#fb923c' },
+        { id: 'sec', x: cx - 148, y: cy - 58, r: 15, label: 'F5/FW', color: '#facc15' },
+        { id: 'py', x: cx + 52, y: cy - 145, r: 13, label: 'Python', color: '#60a5fa' },
+        { id: 'cloud', x: cx, y: cy + 172, r: 15, label: 'CLOUD', color: '#34d399' },
     ];
 
     const edges = [
         ['core', 'cf'], ['core', 'bgp'], ['core', 'ospf'],
-        ['core', 'mpls'], ['core', 'cloud'], ['core', 'aws'],
-        ['core', 'sec'], ['bgp', 'py'], ['cf', 'py'],
-        ['cf', 'bgp'], ['cloud', 'aws'],
+        ['core', 'mpls'], ['core', 'azure'], ['core', 'aws'],
+        ['core', 'sec'], ['core', 'cloud'],
+        ['cf', 'waf'], ['cf', 'dns'], ['cf', 'py'],
+        ['waf', 'bgp'], ['mpls', 'cloud'], ['azure', 'cloud'],
+        ['aws', 'cloud'],
     ];
 
     // Build SVG

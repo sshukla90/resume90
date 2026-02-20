@@ -163,7 +163,8 @@ body {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--accent);
-  cursor: default;
+  cursor: pointer;
+  text-decoration: none;
   width: 44px;
   height: 44px;
   border-radius: 10px;
@@ -415,7 +416,9 @@ body {
   font-size: 0.925rem;
   padding: 0.75rem 1.75rem;
   border-radius: var(--radius-md);
-  border: 1.5px solid var(--border);
+  border: 1.5px solid rgba(99, 179, 255, 0.4);
+  background: rgba(99, 179, 255, 0.07);
+  cursor: pointer;
   transition: border-color var(--transition), background var(--transition), transform var(--transition);
 }
 
@@ -433,14 +436,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(420px, 40vw);
+  width: min(500px, 44vw);
 }
 
 .network-graph {
-  width: 400px;
-  height: 400px;
+  width: 480px;
+  height: 480px;
   position: relative;
-  opacity: 0.7;
+  opacity: 0.8;
   will-change: transform;
   transform: translateZ(0);
 }
@@ -1414,6 +1417,43 @@ body {
   * {
     animation: none !important;
     transition: none !important;
+  }
+
+  /* Force all reveal elements visible — JS may not have triggered for off-screen elements */
+  .reveal,
+  .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  /* Force readable dark text */
+  body,
+  p,
+  li,
+  h1,
+  h2,
+  h3,
+  h4,
+  span,
+  div {
+    color: #111 !important;
+    -webkit-text-fill-color: initial !important;
+  }
+
+  .section-title,
+  .job-title,
+  .company-name,
+  .hero-name .accent,
+  .stat-number,
+  .stat-plus {
+    color: #1a5fd8 !important;
+    -webkit-text-fill-color: #1a5fd8 !important;
+  }
+
+  .hero-name {
+    -webkit-text-fill-color: #0d1a2e !important;
+    color: #0d1a2e !important;
   }
 
   .bg-grid,
