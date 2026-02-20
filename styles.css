@@ -520,15 +520,18 @@ body {
 .summary-text {
   max-width: 860px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
   color: var(--text-second);
-  font-size: 1.05rem;
-  line-height: 1.75;
-  padding: 1.5rem 2rem;
+  font-size: 1.0rem;
+  line-height: 1.85;
+  padding: 2rem 2.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-card);
   backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 /* ============================================
