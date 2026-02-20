@@ -441,21 +441,21 @@ body {
 }
 
 /* ============================================
-   Network Graph (Hero Visual)
+   Mind Map (Hero Visual)
    ============================================ */
 .hero-visual {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(600px, 48vw);
+  width: min(720px, 55vw);
 }
 
 .network-graph {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 9 / 7;
   position: relative;
-  opacity: 0.9;
+  opacity: 0.95;
   will-change: transform;
   transform: translateZ(0);
 }
