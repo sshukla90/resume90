@@ -1,508 +1,659 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shriniwas Shukla — Staff Network Engineer</title>
-  <meta name="description" content="Resume of Shriniwas Shukla, Staff Network Engineer with 11+ years of expertise in BGP, OSPF, MPLS, Cloud (AWS/Azure), and Network Automation." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shriniwas Shukla — Staff Network Engineer</title>
+    <meta name="description"
+        content="Resume of Shriniwas Shukla, Staff Network Engineer with 11+ years of expertise in BGP, OSPF, MPLS, Cloud (AWS/Azure), and Network Automation." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
 
-  <!-- Animated Background -->
-  <div class="bg-grid"></div>
-  <div class="bg-orbs">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
-
-  <!-- Navigation -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-logo">SS</div>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#about" class="nav-link">About</a></li>
-      <li><a href="#experience" class="nav-link">Experience</a></li>
-      <li><a href="#skills" class="nav-link">Skills</a></li>
-      <li><a href="#certifications" class="nav-link">Certs</a></li>
-      <li><a href="#education" class="nav-link">Education</a></li>
-      <li><a href="#contact" class="nav-link cta-btn">Contact</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <main>
-    <!-- Hero Section -->
-    <section class="hero" id="about">
-      <div class="hero-content">
-        <div class="hero-badge reveal">Staff Network Engineer</div>
-        <h1 class="hero-name reveal">
-          Shriniwas<br /><span class="accent">Shukla</span>
-        </h1>
-        <p class="hero-tagline reveal">
-          11+ Years of Network Mastery · BGP · OSPF · MPLS · AWS · Azure · Python Automation
-        </p>
-        <div class="hero-contacts reveal">
-          <a href="mailto:shriniwas.90@gmail.com" class="contact-chip" id="email-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-            shriniwas.90@gmail.com
-          </a>
-          <a href="tel:+918840335923" class="contact-chip" id="phone-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.35 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            +91-8840335923
-          </a>
-          <a href="https://www.linkedin.com/in/sshukla90" target="_blank" rel="noopener" class="contact-chip" id="linkedin-link">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            linkedin.com/in/sshukla90
-          </a>
-          <span class="contact-chip" id="location-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Bengaluru, India
-          </span>
-        </div>
-        <div class="hero-cta reveal">
-          <a href="#experience" class="btn-primary" id="view-experience-btn">View Experience</a>
-          <a href="#contact" class="btn-secondary" id="contact-btn">Get In Touch</a>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="network-graph" id="network-graph"></div>
-      </div>
-    </section>
-
-    <!-- Summary Section -->
-    <section class="summary-section reveal" id="summary">
-      <div class="container">
-        <div class="summary-grid">
-          <div class="summary-stat reveal-item">
-            <span class="stat-number" data-target="11">0</span><span class="stat-plus">+</span>
-            <span class="stat-label">Years Experience</span>
-          </div>
-          <div class="summary-stat reveal-item">
-            <span class="stat-number" data-target="4">0</span>
-            <span class="stat-label">Companies</span>
-          </div>
-          <div class="summary-stat reveal-item">
-            <span class="stat-number" data-target="5">0</span>
-            <span class="stat-label">Certifications</span>
-          </div>
-          <div class="summary-stat reveal-item">
-            <span class="stat-number" data-target="10">0</span><span class="stat-plus">+</span>
-            <span class="stat-label">Technologies</span>
-          </div>
-        </div>
-        <div class="summary-text reveal-item">
-          <p>Accomplished Staff Network Engineer with close to 11 years of expertise in Network Infrastructure Designs, deployment, operations, Internet peering/exchanges, migration, and scaling. Expert in advanced routing and switching protocols including BGP, OSPF, MPLS, VPN, EVPN, and VxLAN. Adept in cloud integration with AWS and Azure, F5 and NSX load balancers, firewall security, and Python-based network automation.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section class="section" id="experience">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">Career</span>
-          <h2 class="section-title">Work Experience</h2>
-        </div>
-
-        <div class="timeline">
-
-          <!-- Job 1 -->
-          <div class="timeline-item reveal" id="job-goto">
-            <div class="timeline-marker">
-              <div class="marker-dot"></div>
-              <div class="marker-line"></div>
-            </div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-title-group">
-                  <h3 class="job-title">Staff Network Engineer</h3>
-                  <span class="company-name">goto</span>
-                </div>
-                <div class="card-meta">
-                  <span class="job-period">June 2022 – Present</span>
-                  <span class="job-location">Bengaluru</span>
-                  <span class="job-badge current">Current</span>
-                </div>
-              </div>
-              <ul class="job-bullets">
-                <li>IC contributor on Network infrastructure (Edge &amp; Enterprise) design, Migration projects, NetDevOps, and POC Projects in a multi-vendor environment.</li>
-                <li>Handle escalated routing (BGP, OSPF, MPLS, VPN) &amp; switching, firewall and load balancer issues.</li>
-                <li>Deploy and test network scenarios in lab before production rollout.</li>
-                <li>Support hybrid infrastructure: On-Prem (spine-leaf, BGP peering, MPLS VPN, SDWAN/Viptela) &amp; Cloud (AWS Direct Connect, Azure ExpressRoute, VPN tunnels, IAM, EC2).</li>
-                <li>Develop Python scripts for network automation, streamlining tasks and enhancing performance.</li>
-                <li>Review PRs for IaC (Terraform) related to cloud infrastructure support and deployment.</li>
-                <li>Collaborate with ISPs, Change Management, Incident Management, and Solution Architects.</li>
-              </ul>
-              <div class="tech-tags">
-                <span class="tech-tag">BGP</span><span class="tech-tag">OSPF</span><span class="tech-tag">MPLS</span>
-                <span class="tech-tag">SDWAN</span><span class="tech-tag">AWS</span><span class="tech-tag">Azure</span>
-                <span class="tech-tag">Python</span><span class="tech-tag">Terraform</span><span class="tech-tag">VxLAN</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Job 2 -->
-          <div class="timeline-item reveal" id="job-att">
-            <div class="timeline-marker">
-              <div class="marker-dot"></div>
-              <div class="marker-line"></div>
-            </div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-title-group">
-                  <h3 class="job-title">Lead Network Engineer – Design &amp; Deployment</h3>
-                  <span class="company-name">AT&amp;T Communication India Pvt Ltd</span>
-                </div>
-                <div class="card-meta">
-                  <span class="job-period">Aug 2019 – June 2022</span>
-                  <span class="job-location">Bengaluru</span>
-                </div>
-              </div>
-              <ul class="job-bullets">
-                <li>Customer-Dedicated Design Engineer (CDDE) specializing in data center design, deployment, and optimization of network infrastructure.</li>
-                <li>Advanced network troubleshooting, resolving escalated Routing and Switching issues.</li>
-                <li>Created and validated routing solutions in network lab before deploying to customer networks.</li>
-                <li>Created device configuration standard templates (QoS, SNMP, Netflow) for IOS-XE, IOS-XR, Cat9k, Nexus9k.</li>
-                <li>Performed network troubleshooting and resolution for Routing &amp; Switching (MPLS, VPN).</li>
-              </ul>
-              <div class="tech-tags">
-                <span class="tech-tag">MPLS</span><span class="tech-tag">VPN</span><span class="tech-tag">QoS</span>
-                <span class="tech-tag">IOS-XR</span><span class="tech-tag">Nexus9k</span><span class="tech-tag">SNMP</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Job 3 -->
-          <div class="timeline-item reveal" id="job-schweickert">
-            <div class="timeline-marker">
-              <div class="marker-dot"></div>
-              <div class="marker-line"></div>
-            </div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-title-group">
-                  <h3 class="job-title">Sr. Network Engineer</h3>
-                  <span class="company-name">Schweickert India Pvt Ltd (For SAP Labs India)</span>
-                </div>
-                <div class="card-meta">
-                  <span class="job-period">Apr 2016 – Aug 2019</span>
-                  <span class="job-location">Bengaluru</span>
-                </div>
-              </div>
-              <ul class="job-bullets">
-                <li>Troubleshot network incidents involving Routing &amp; Switching (BGP, OSPF), F5, and firewalls.</li>
-                <li>Led VPN connectivity project as Single Point of Contact (SPOC).</li>
-                <li>Handled F5 load balancer service requests, incidents, device upgrades, and migration support.</li>
-                <li>Utilized Wireshark for comprehensive packet analysis.</li>
-                <li>Established a new support team in Portugal — provided onsite technical training and mentorship to EMEA team.</li>
-                <li>Produced technical documentation including problem records, SOPs, and implementation plans.</li>
-              </ul>
-              <div class="tech-tags">
-                <span class="tech-tag">BGP</span><span class="tech-tag">F5 LTM/GTM</span><span class="tech-tag">VPN</span>
-                <span class="tech-tag">Wireshark</span><span class="tech-tag">Juniper</span><span class="tech-tag">Cisco</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Job 4 -->
-          <div class="timeline-item reveal" id="job-tcs">
-            <div class="timeline-marker">
-              <div class="marker-dot"></div>
-            </div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-title-group">
-                  <h3 class="job-title">Network Engineer</h3>
-                  <span class="company-name">Tata Consultancy Services</span>
-                </div>
-                <div class="card-meta">
-                  <span class="job-period">Feb 2013 – Apr 2016</span>
-                  <span class="job-location">Bengaluru</span>
-                </div>
-              </div>
-              <ul class="job-bullets">
-                <li>Configured routers and switches for new branch offices with Routing and MPLS connectivity.</li>
-                <li>Troubleshot routing and switching issues including multicast configuration and support.</li>
-                <li>Administered Juniper SRX, Checkpoint firewalls, and Cisco ASA.</li>
-                <li>Upgraded Cisco routers, switches, and firewalls; planned and implemented change requests.</li>
-                <li>Provided IPsec VPN implementation and troubleshooting for customers.</li>
-                <li>Created SOPs and POC documentation for configuration standardization.</li>
-              </ul>
-              <div class="tech-tags">
-                <span class="tech-tag">MPLS</span><span class="tech-tag">IPsec VPN</span><span class="tech-tag">Juniper SRX</span>
-                <span class="tech-tag">Cisco ASA</span><span class="tech-tag">Checkpoint</span><span class="tech-tag">Multicast</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="section skills-section" id="skills">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">Expertise</span>
-          <h2 class="section-title">Technical Skills</h2>
-        </div>
-
-        <div class="skills-grid">
-
-          <div class="skill-card reveal" id="skill-routing">
-            <div class="skill-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-            <h3 class="skill-category">Routing &amp; Switching</h3>
-            <div class="skill-tags">
-              <span>TCP/IP</span><span>IPv4/IPv6</span><span>BGP</span><span>OSPF</span>
-              <span>MPLS</span><span>L3VPN</span><span>EVPN</span><span>VxLAN</span>
-              <span>FHRP</span><span>STP</span><span>QoS</span><span>802.1x</span>
-              <span>LACP</span><span>SDN</span>
-            </div>
-          </div>
-
-          <div class="skill-card reveal" id="skill-cloud">
-            <div class="skill-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-            </div>
-            <h3 class="skill-category">Cloud</h3>
-            <div class="skill-tags">
-              <span>AWS</span><span>Azure</span><span>Direct Connect</span>
-              <span>ExpressRoute</span><span>VPN Tunnels</span><span>IAM</span>
-              <span>EC2</span><span>Security Groups</span>
-            </div>
-          </div>
-
-          <div class="skill-card reveal" id="skill-design">
-            <div class="skill-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            </div>
-            <h3 class="skill-category">Network Design</h3>
-            <div class="skill-tags">
-              <span>HLD/LLD</span><span>Greenfield</span><span>Brownfield</span>
-              <span>Leaf-Spine</span><span>Three-Tier</span><span>Migration</span>
-              <span>BGP Peering</span><span>Internet Exchanges</span>
-            </div>
-          </div>
-
-          <div class="skill-card reveal" id="skill-security">
-            <div class="skill-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </div>
-            <h3 class="skill-category">Security &amp; Load Balancing</h3>
-            <div class="skill-tags">
-              <span>Juniper SRX</span><span>Cisco ASA</span><span>Checkpoint</span>
-              <span>F5 LTM</span><span>F5 GTM</span><span>NSX</span>
-              <span>IPsec VPN</span>
-            </div>
-          </div>
-
-          <div class="skill-card reveal" id="skill-automation">
-            <div class="skill-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            </div>
-            <h3 class="skill-category">Automation &amp; DevOps</h3>
-            <div class="skill-tags">
-              <span>Python</span><span>Terraform</span><span>Git/GitHub</span>
-              <span>GitLab</span><span>Bitbucket</span><span>IaC</span>
-              <span>JSON</span><span>YAML</span><span>XML</span>
-            </div>
-          </div>
-
-          <div class="skill-card reveal" id="skill-mgmt">
-            <div class="skill-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 1 4.93 19.07"/></svg>
-            </div>
-            <h3 class="skill-category">Network Management</h3>
-            <div class="skill-tags">
-              <span>DHCP</span><span>SNMP</span><span>DNS</span><span>NTP</span>
-              <span>Netflow</span><span>Wireshark</span><span>Linux</span>
-              <span>SDWAN/Viptela</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Certifications Section -->
-    <section class="section certs-section" id="certifications">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">Credentials</span>
-          <h2 class="section-title">Certifications</h2>
-        </div>
-        <div class="certs-grid">
-
-          <div class="cert-card reveal" id="cert-cisco-core">
-            <div class="cert-logo cisco">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            </div>
-            <div class="cert-info">
-              <h4>Cisco Certified Specialist</h4>
-              <p>Enterprise Core</p>
-            </div>
-          </div>
-
-          <div class="cert-card reveal" id="cert-devnet">
-            <div class="cert-logo cisco">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            </div>
-            <div class="cert-info">
-              <h4>Cisco Certified DevNet Associate</h4>
-              <p>200-901</p>
-            </div>
-          </div>
-
-          <div class="cert-card reveal" id="cert-azure-fundamentals">
-            <div class="cert-logo azure">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.05 4.24L6.56 18.05H2l7.09-2.97 3.71-8.86 3.71 8.86L22 18.05h-4.56L13.05 4.24zM12 2l-4.5 9h9L12 2z"/></svg>
-            </div>
-            <div class="cert-info">
-              <h4>Microsoft Certified</h4>
-              <p>Azure Fundamentals</p>
-            </div>
-          </div>
-
-          <div class="cert-card reveal" id="cert-azure-network">
-            <div class="cert-logo azure">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.05 4.24L6.56 18.05H2l7.09-2.97 3.71-8.86 3.71 8.86L22 18.05h-4.56L13.05 4.24zM12 2l-4.5 9h9L12 2z"/></svg>
-            </div>
-            <div class="cert-info">
-              <h4>Microsoft Certified</h4>
-              <p>Azure Network Engineer Associate</p>
-            </div>
-          </div>
-
-          <div class="cert-card reveal" id="cert-aviatrix">
-            <div class="cert-logo aviatrix">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            </div>
-            <div class="cert-info">
-              <h4>Aviatrix Certified Engineer</h4>
-              <p>Multi-Cloud Networking Associate</p>
-            </div>
-          </div>
-
-          <div class="cert-card reveal expired" id="cert-jncia">
-            <div class="cert-logo juniper">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-            </div>
-            <div class="cert-info">
-              <h4>JNCIA</h4>
-              <p>Juniper Networks Associate <span class="expired-badge">Expired</span></p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">Portfolio</span>
-          <h2 class="section-title">Key Projects</h2>
-        </div>
-        <div class="projects-grid">
-          <div class="project-card reveal" id="proj-enterprise">
-            <div class="project-icon">🏗️</div>
-            <h4>Enterprise Network Design</h4>
-            <p>Greenfield and Brownfield enterprise network design and migrations, including spine-leaf architecture deployments.</p>
-          </div>
-          <div class="project-card reveal" id="proj-edge">
-            <div class="project-icon">🌐</div>
-            <h4>SP Edge Design &amp; Scaling</h4>
-            <p>Service Provider edge design changes and scaling, including BGP peering and Internet exchange implementations.</p>
-          </div>
-          <div class="project-card reveal" id="proj-upgrade">
-            <div class="project-icon">🔧</div>
-            <h4>Device Upgrades &amp; Replacements</h4>
-            <p>End-to-end lifecycle management of network devices, coordinating upgrades and hardware replacements across multi-vendor environments.</p>
-          </div>
-          <div class="project-card reveal" id="proj-automation">
-            <div class="project-icon">🤖</div>
-            <h4>Network Automation</h4>
-            <p>Developed Python automation scripts to streamline repetitive tasks, configuration management, and network performance monitoring.</p>
-          </div>
-          <div class="project-card reveal" id="proj-docs">
-            <div class="project-icon">📋</div>
-            <h4>Network Documentation &amp; SOPs</h4>
-            <p>Network documentation and SOP creation for device configuration standardization across multiple platforms and vendors.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Education Section -->
-    <section class="section" id="education">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">Academic Background</span>
-          <h2 class="section-title">Education</h2>
-        </div>
-        <div class="edu-card reveal" id="edu-btech">
-          <div class="edu-icon">🎓</div>
-          <div class="edu-content">
-            <h3>Bachelor of Technology</h3>
-            <p class="edu-field">Electronics and Communication Engineering</p>
-            <p class="edu-university">Dr. A.P.J. Abdul Kalam Technical University</p>
-            <p class="edu-details">Lucknow, Uttar Pradesh &nbsp;·&nbsp; 2008 – 2012</p>
-          </div>
-          <div class="edu-year">2012</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section contact-section" id="contact">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-tag">Let's Connect</span>
-          <h2 class="section-title">Get In Touch</h2>
-        </div>
-        <div class="contact-grid">
-          <a href="mailto:shriniwas.90@gmail.com" class="contact-card reveal" id="contact-email-card">
-            <div class="contact-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-            </div>
-            <span class="contact-card-label">Email</span>
-            <span class="contact-card-value">shriniwas.90@gmail.com</span>
-          </a>
-          <a href="tel:+918840335923" class="contact-card reveal" id="contact-phone-card">
-            <div class="contact-card-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.35 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            </div>
-            <span class="contact-card-label">Phone</span>
-            <span class="contact-card-value">+91-8840335923</span>
-          </a>
-          <a href="https://www.linkedin.com/in/sshukla90" target="_blank" rel="noopener" class="contact-card reveal" id="contact-linkedin-card">
-            <div class="contact-card-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </div>
-            <span class="contact-card-label">LinkedIn</span>
-            <span class="contact-card-value">linkedin.com/in/sshukla90</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>© 2024 Shriniwas Shukla · Staff Network Engineer · Bengaluru, India</p>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
-  </footer>
 
-  <script src="script.js"></script>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">SS</div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#experience" class="nav-link">Experience</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#certifications" class="nav-link">Certs</a></li>
+            <li><a href="#education" class="nav-link">Education</a></li>
+            <li><a href="#contact" class="nav-link cta-btn">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="about">
+            <div class="hero-content">
+                <div class="hero-badge reveal">Staff Network Engineer</div>
+                <h1 class="hero-name reveal">
+                    Shriniwas<br /><span class="accent">Shukla</span>
+                </h1>
+                <p class="hero-tagline reveal">
+                    12+ Years of Network Mastery · BGP · OSPF · MPLS · Cloudflare · AWS · Azure · Python Automation
+                </p>
+                <div class="hero-contacts reveal">
+                    <a href="mailto:shriniwas.90@gmail.com" class="contact-chip" id="email-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,12 2,6" />
+                        </svg>
+                        shriniwas.90@gmail.com
+                    </a>
+                    <a href="tel:+918840335923" class="contact-chip" id="phone-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.35 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                        +91-8840335923
+                    </a>
+                    <a href="https://www.linkedin.com/in/sshukla90" target="_blank" rel="noopener" class="contact-chip"
+                        id="linkedin-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                            <rect x="2" y="9" width="4" height="12" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
+                        linkedin.com/in/sshukla90
+                    </a>
+                    <span class="contact-chip" id="location-chip">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        Bengaluru, India
+                    </span>
+                </div>
+                <div class="hero-cta reveal">
+                    <a href="#experience" class="btn-primary" id="view-experience-btn">View Experience</a>
+                    <a href="#contact" class="btn-secondary" id="contact-btn">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="network-graph" id="network-graph"></div>
+            </div>
+        </section>
+
+        <!-- Summary Section -->
+        <section class="summary-section reveal" id="summary">
+            <div class="container">
+                <div class="summary-grid">
+                    <div class="summary-stat reveal-item">
+                        <span class="stat-number" data-target="12">0</span><span class="stat-plus">+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="summary-stat reveal-item">
+                        <span class="stat-number" data-target="5">0</span>
+                        <span class="stat-label">Companies</span>
+                    </div>
+                    <div class="summary-stat reveal-item">
+                        <span class="stat-number" data-target="5">0</span>
+                        <span class="stat-label">Certifications</span>
+                    </div>
+                    <div class="summary-stat reveal-item">
+                        <span class="stat-number" data-target="6">0</span><span class="stat-plus">+</span>
+                        <span class="stat-label">Years Python</span>
+                    </div>
+                </div>
+                <div class="summary-text reveal-item">
+                    <p>Senior Cloud &amp; Network Engineer with 12+ years of expertise spanning enterprise routing &amp;
+                        switching, cloud platforms, and network automation. Currently driving Cloudflare platform
+                        engineering at Swiss Re. Expert in BGP, OSPF, MPLS, VPN, EVPN, and VxLAN. Proficient in cloud
+                        integration (AWS &amp; Azure), Python automation, network modelling (YANG, NETCONF, OpenConfig),
+                        and IaC with Terraform.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="section" id="experience">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Career</span>
+                    <h2 class="section-title">Work Experience</h2>
+                </div>
+
+                <div class="timeline">
+
+                    <!-- Job 0: Swiss Re (CURRENT) -->
+                    <div class="timeline-item reveal" id="job-swissre">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="job-title">Senior Cloud Engineer</h3>
+                                    <span class="company-name">Swiss Re</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span class="job-period">July 2024 – Present</span>
+                                    <span class="job-location">Bengaluru</span>
+                                    <span class="job-badge current">Current</span>
+                                </div>
+                            </div>
+                            <ul class="job-bullets">
+                                <li>Part of the Edge and Connectivity Services team, focusing on Cloudflare as a
+                                    platform for enterprise-grade networking.</li>
+                                <li>Manage network infrastructure deployment, architecture design, and migration
+                                    projects.</li>
+                                <li>Develop and maintain automation workflows and Terraform IaC for Cloudflare
+                                    infrastructure.</li>
+                                <li>Modify and manage Cloudflare configurations using the API, Terraform, and Python for
+                                    seamless automation.</li>
+                                <li>Created automation scripts for Cloudflare workflows: zone onboarding, WAF rule
+                                    creation, DNS record creation and deletion.</li>
+                                <li>Provide last-level support during P1 outages and collaborate with customers to
+                                    resolve integration challenges.</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Cloudflare</span><span class="tech-tag">Terraform</span><span
+                                    class="tech-tag">Python</span>
+                                <span class="tech-tag">WAF</span><span class="tech-tag">DNS</span><span
+                                    class="tech-tag">API Automation</span>
+                                <span class="tech-tag">IaC</span><span class="tech-tag">Edge Networking</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 1 -->
+                    <div class="timeline-item reveal" id="job-goto">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="job-title">Staff Network Engineer</h3>
+                                    <span class="company-name">goto</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span class="job-period">June 2022 – July 2024</span>
+                                    <span class="job-location">Bengaluru</span>
+                                </div>
+                            </div>
+                            <ul class="job-bullets">
+                                <li>IC contributor on Network infrastructure (Edge &amp; Enterprise) design, Migration
+                                    projects, NetDevOps, and POC Projects in a multi-vendor environment.</li>
+                                <li>Worked on escalated routing (BGP, OSPF, MPLS, VPN) &amp; switching, firewall and
+                                    load balancer issues.</li>
+                                <li>Collaborated with ISPs for planned peering changes and routing manipulations.</li>
+                                <li>Supported hybrid infrastructure: On-Prem (spine-leaf, BGP peering, MPLS VPN,
+                                    SD-WAN/Viptela) &amp; Cloud (AWS Direct Connect, Azure ExpressRoute); Network
+                                    Virtualization: VMware NSX-T.</li>
+                                <li>Created network automation scripts for regular checks, maintenance, configuration
+                                    template creation, and troubleshooting.</li>
+                                <li>Reviewed PRs for IaC (Terraform) related to cloud infrastructure support and
+                                    deployment.</li>
+                                <li>Collaborated with Change Management, Incident Management, and Solution Architects.
+                                </li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span class="tech-tag">BGP</span><span class="tech-tag">OSPF</span><span
+                                    class="tech-tag">MPLS</span>
+                                <span class="tech-tag">SD-WAN</span><span class="tech-tag">AWS</span><span
+                                    class="tech-tag">Azure</span>
+                                <span class="tech-tag">Python</span><span class="tech-tag">Terraform</span><span
+                                    class="tech-tag">NSX-T</span><span class="tech-tag">VxLAN</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 2 -->
+                    <div class="timeline-item reveal" id="job-att">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="job-title">Lead Network Engineer – Design &amp; Deployment</h3>
+                                    <span class="company-name">AT&amp;T Communication India Pvt Ltd</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span class="job-period">Aug 2019 – June 2022</span>
+                                    <span class="job-location">Bengaluru</span>
+                                </div>
+                            </div>
+                            <ul class="job-bullets">
+                                <li>Customer-Dedicated Design Engineer (CDDE) specializing in data center design,
+                                    deployment, and optimization of network infrastructure.</li>
+                                <li>Advanced network troubleshooting, resolving escalated Routing and Switching issues.
+                                </li>
+                                <li>Created and validated routing solutions in network lab before deploying to customer
+                                    networks.</li>
+                                <li>Created device configuration standard templates (QoS, SNMP, Netflow) for IOS-XE,
+                                    IOS-XR, Cat9k, Nexus9k.</li>
+                                <li>Performed network troubleshooting and resolution for Routing &amp; Switching (MPLS,
+                                    VPN).</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span class="tech-tag">MPLS</span><span class="tech-tag">VPN</span><span
+                                    class="tech-tag">QoS</span>
+                                <span class="tech-tag">IOS-XR</span><span class="tech-tag">Nexus9k</span><span
+                                    class="tech-tag">SNMP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 3 -->
+                    <div class="timeline-item reveal" id="job-schweickert">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="job-title">Sr. Network Engineer</h3>
+                                    <span class="company-name">Schweickert India Pvt Ltd (For SAP Labs India)</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span class="job-period">Apr 2016 – Aug 2019</span>
+                                    <span class="job-location">Bengaluru</span>
+                                </div>
+                            </div>
+                            <ul class="job-bullets">
+                                <li>Troubleshot network incidents involving Routing &amp; Switching (BGP, OSPF), F5, and
+                                    firewalls.</li>
+                                <li>Led VPN connectivity project as Single Point of Contact (SPOC).</li>
+                                <li>Handled F5 load balancer service requests, incidents, device upgrades, and migration
+                                    support.</li>
+                                <li>Utilized Wireshark for comprehensive packet analysis.</li>
+                                <li>Established a new support team in Portugal — provided onsite technical training and
+                                    mentorship to EMEA team.</li>
+                                <li>Produced technical documentation including problem records, SOPs, and implementation
+                                    plans.</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span class="tech-tag">BGP</span><span class="tech-tag">F5 LTM/GTM</span><span
+                                    class="tech-tag">VPN</span>
+                                <span class="tech-tag">Wireshark</span><span class="tech-tag">Juniper</span><span
+                                    class="tech-tag">Cisco</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job 4 -->
+                    <div class="timeline-item reveal" id="job-tcs">
+                        <div class="timeline-marker">
+                            <div class="marker-dot"></div>
+                        </div>
+                        <div class="timeline-card">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="job-title">Network Engineer</h3>
+                                    <span class="company-name">Tata Consultancy Services</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span class="job-period">Feb 2013 – Apr 2016</span>
+                                    <span class="job-location">Bengaluru</span>
+                                </div>
+                            </div>
+                            <ul class="job-bullets">
+                                <li>Configured routers and switches for new branch offices with Routing and MPLS
+                                    connectivity.</li>
+                                <li>Troubleshot routing and switching issues including multicast configuration and
+                                    support.</li>
+                                <li>Administered Juniper SRX, Checkpoint firewalls, and Cisco ASA.</li>
+                                <li>Upgraded Cisco routers, switches, and firewalls; planned and implemented change
+                                    requests.</li>
+                                <li>Provided IPsec VPN implementation and troubleshooting for customers.</li>
+                                <li>Created SOPs and POC documentation for configuration standardization.</li>
+                            </ul>
+                            <div class="tech-tags">
+                                <span class="tech-tag">MPLS</span><span class="tech-tag">IPsec VPN</span><span
+                                    class="tech-tag">Juniper SRX</span>
+                                <span class="tech-tag">Cisco ASA</span><span class="tech-tag">Checkpoint</span><span
+                                    class="tech-tag">Multicast</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section skills-section" id="skills">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Expertise</span>
+                    <h2 class="section-title">Technical Skills</h2>
+                </div>
+
+                <div class="skills-grid">
+
+                    <div class="skill-card reveal" id="skill-routing">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-category">Routing &amp; Switching</h3>
+                        <div class="skill-tags">
+                            <span>TCP/IP</span><span>IPv4/IPv6</span><span>BGP</span><span>OSPF</span>
+                            <span>MPLS</span><span>L3VPN</span><span>EVPN</span><span>VxLAN</span>
+                            <span>FHRP</span><span>STP</span><span>QoS</span><span>802.1x</span>
+                            <span>LACP</span><span>SDN</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card reveal" id="skill-cloud">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-category">Cloud</h3>
+                        <div class="skill-tags">
+                            <span>AWS</span><span>Azure</span><span>Direct Connect</span>
+                            <span>ExpressRoute</span><span>VPN Tunnels</span><span>IAM</span>
+                            <span>EC2</span><span>Security Groups</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card reveal" id="skill-design">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="7" height="7" />
+                                <rect x="14" y="3" width="7" height="7" />
+                                <rect x="14" y="14" width="7" height="7" />
+                                <rect x="3" y="14" width="7" height="7" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-category">Network Design</h3>
+                        <div class="skill-tags">
+                            <span>HLD/LLD</span><span>Greenfield</span><span>Brownfield</span>
+                            <span>Leaf-Spine</span><span>Three-Tier</span><span>Migration</span>
+                            <span>BGP Peering</span><span>Internet Exchanges</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card reveal" id="skill-security">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-category">Security &amp; Load Balancing</h3>
+                        <div class="skill-tags">
+                            <span>Juniper SRX</span><span>Cisco ASA</span><span>Checkpoint</span>
+                            <span>F5 LTM</span><span>F5 GTM</span><span>NSX</span>
+                            <span>IPsec VPN</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card reveal" id="skill-automation">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <polyline points="16 18 22 12 16 6" />
+                                <polyline points="8 6 2 12 8 18" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-category">Automation &amp; DevOps</h3>
+                        <div class="skill-tags">
+                            <span>Python</span><span>Terraform</span><span>YANG</span>
+                            <span>NETCONF</span><span>OpenConfig</span><span>Git/GitHub</span>
+                            <span>GitLab</span><span>Bitbucket</span><span>IaC</span>
+                            <span>JSON</span><span>YAML</span><span>XML</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card reveal" id="skill-mgmt">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="3" />
+                                <path d="M19.07 4.93A10 10 0 1 1 4.93 19.07" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-category">Network Management &amp; Monitoring</h3>
+                        <div class="skill-tags">
+                            <span>DHCP</span><span>SNMP</span><span>DNS</span><span>NTP</span>
+                            <span>Netflow</span><span>Wireshark</span><span>Linux</span>
+                            <span>ThousandEyes</span><span>Kentik</span><span>Catchpoint</span>
+                            <span>JIRA</span><span>ServiceNow</span><span>HPNA</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card reveal" id="skill-hardware">
+                        <div class="skill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="3" width="20" height="14" rx="2" />
+                                <line x1="8" y1="21" x2="16" y2="21" />
+                                <line x1="12" y1="17" x2="12" y2="21" />
+                            </svg>
+                        </div>
+                        <h3 class="skill-category">Hardware Platforms</h3>
+                        <div class="skill-tags">
+                            <span>Cisco ASR/ISR</span><span>Catalyst 9K</span><span>Nexus 9K</span>
+                            <span>Juniper M-Series</span><span>Juniper EX-Series</span><span>Juniper SRX</span>
+                            <span>F5 LTM/GTM</span><span>Cisco ASA</span><span>Cloudflare</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section class="section certs-section" id="certifications">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Credentials</span>
+                    <h2 class="section-title">Certifications</h2>
+                </div>
+                <div class="certs-grid">
+
+                    <div class="cert-card reveal" id="cert-cisco-core">
+                        <div class="cert-logo cisco">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                        </div>
+                        <div class="cert-info">
+                            <h4>Cisco Certified Specialist</h4>
+                            <p>Enterprise Core</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-card reveal" id="cert-devnet">
+                        <div class="cert-logo cisco">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                        </div>
+                        <div class="cert-info">
+                            <h4>Cisco Certified DevNet Associate</h4>
+                            <p>200-901</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-card reveal" id="cert-azure-fundamentals">
+                        <div class="cert-logo azure">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M13.05 4.24L6.56 18.05H2l7.09-2.97 3.71-8.86 3.71 8.86L22 18.05h-4.56L13.05 4.24zM12 2l-4.5 9h9L12 2z" />
+                            </svg>
+                        </div>
+                        <div class="cert-info">
+                            <h4>Microsoft Certified</h4>
+                            <p>Azure Fundamentals</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-card reveal" id="cert-azure-network">
+                        <div class="cert-logo azure">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M13.05 4.24L6.56 18.05H2l7.09-2.97 3.71-8.86 3.71 8.86L22 18.05h-4.56L13.05 4.24zM12 2l-4.5 9h9L12 2z" />
+                            </svg>
+                        </div>
+                        <div class="cert-info">
+                            <h4>Microsoft Certified</h4>
+                            <p>Azure Network Engineer Associate</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-card reveal" id="cert-aviatrix">
+                        <div class="cert-logo aviatrix">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                            </svg>
+                        </div>
+                        <div class="cert-info">
+                            <h4>Aviatrix Certified Engineer</h4>
+                            <p>Multi-Cloud Networking Associate</p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Portfolio</span>
+                    <h2 class="section-title">Key Projects</h2>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card reveal" id="proj-enterprise">
+                        <div class="project-icon">🏗️</div>
+                        <h4>Enterprise Network Design</h4>
+                        <p>Greenfield and Brownfield enterprise network design and migrations, including spine-leaf
+                            architecture deployments.</p>
+                    </div>
+                    <div class="project-card reveal" id="proj-edge">
+                        <div class="project-icon">🌐</div>
+                        <h4>SP Edge Design &amp; Scaling</h4>
+                        <p>Service Provider edge design changes and scaling, including BGP peering and Internet exchange
+                            implementations.</p>
+                    </div>
+                    <div class="project-card reveal" id="proj-upgrade">
+                        <div class="project-icon">🔧</div>
+                        <h4>Device Upgrades &amp; Replacements</h4>
+                        <p>End-to-end lifecycle management of network devices, coordinating upgrades and hardware
+                            replacements across multi-vendor environments.</p>
+                    </div>
+                    <div class="project-card reveal" id="proj-automation">
+                        <div class="project-icon">🤖</div>
+                        <h4>Network Automation</h4>
+                        <p>Developed Python automation scripts to streamline repetitive tasks, configuration management,
+                            and network performance monitoring.</p>
+                    </div>
+                    <div class="project-card reveal" id="proj-docs">
+                        <div class="project-icon">📋</div>
+                        <h4>Network Documentation &amp; SOPs</h4>
+                        <p>Network documentation and SOP creation for device configuration standardization across
+                            multiple platforms and vendors.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section class="section" id="education">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Academic Background</span>
+                    <h2 class="section-title">Education</h2>
+                </div>
+                <div class="edu-card reveal" id="edu-btech">
+                    <div class="edu-icon">🎓</div>
+                    <div class="edu-content">
+                        <h3>Bachelor of Technology</h3>
+                        <p class="edu-field">Electronics and Communication Engineering</p>
+                        <p class="edu-university">Dr. A.P.J. Abdul Kalam Technical University</p>
+                        <p class="edu-details">Lucknow, Uttar Pradesh &nbsp;·&nbsp; 2008 – 2012</p>
+                    </div>
+                    <div class="edu-year">2012</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section contact-section" id="contact">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Let's Connect</span>
+                    <h2 class="section-title">Get In Touch</h2>
+                </div>
+                <div class="contact-grid">
+                    <a href="mailto:shriniwas.90@gmail.com" class="contact-card reveal" id="contact-email-card">
+                        <div class="contact-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,12 2,6" />
+                            </svg>
+                        </div>
+                        <span class="contact-card-label">Email</span>
+                        <span class="contact-card-value">shriniwas.90@gmail.com</span>
+                    </a>
+                    <a href="tel:+918840335923" class="contact-card reveal" id="contact-phone-card">
+                        <div class="contact-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.35 2 2 0 0 1 3.59 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                            </svg>
+                        </div>
+                        <span class="contact-card-label">Phone</span>
+                        <span class="contact-card-value">+91-8840335923</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sshukla90" target="_blank" rel="noopener"
+                        class="contact-card reveal" id="contact-linkedin-card">
+                        <div class="contact-card-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                                <rect x="2" y="9" width="4" height="12" />
+                                <circle cx="4" cy="4" r="2" />
+                            </svg>
+                        </div>
+                        <span class="contact-card-label">LinkedIn</span>
+                        <span class="contact-card-value">linkedin.com/in/sshukla90</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Shriniwas Shukla · Staff Network Engineer · Bengaluru, India</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
