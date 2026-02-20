@@ -116,224 +116,272 @@ const counterObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.stat-number').forEach(el => counterObserver.observe(el));
 
-/* ---- Network Graph (SVG canvas) ---- */
-function buildNetworkGraph() {
+/* ---- Mind Map (SVG canvas) ---- */
+function buildMindMap() {
     const container = document.getElementById('network-graph');
     if (!container) return;
 
-    const W = 560, H = 560;
-    const cx = W / 2, cy = H / 2;
+    const W = 560, H = 560, cx = W / 2, cy = H / 2;
 
-    // Simple Icons CDN: https://cdn.simpleicons.org/[slug]/[hexcolor]
-    // Feather-style paths for concept nodes (not brands)
-    const iconPaths = {
-        shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
-        globe: 'M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 0v20M2 12h20M4.9 4.9C7 7 9.4 8 12 8s5-1 7.1-3.1M4.9 19.1C7 17 9.4 16 12 16s5 1 7.1 3.1',
-        lock: 'M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zM7 11V7a5 5 0 0 1 10 0v4',
+    // Personal activity icons (Material Icons, 24×24 viewBox, filled paths)
+    const personalIcons = {
+        heart:     'M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z',
+        runner:    'M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z',
+        cyclist:   'M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L10 13.4V17h2v-4.5l-2.4-2.4.2-.1zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z',
+        nutrition: 'M17 8C8 10 5.9 16.17 3.82 20.83L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20c9 0 12-8 12-8-4 0-8 4-8 4s1.5-4 5-5z',
     };
 
-    // Node definitions
-    // cdnSlug  → Simple Icons CDN (real brand logos, free/CC0)
-    // icon     → inline SVG path for concept nodes
-    // (neither) → bold text only for protocol names
-    const nodes = [
-        { id: 'core', x: cx, y: cy, r: 33, label: 'CORE', color: '#3b8bff' },
-        { id: 'cf', x: cx, y: cy - 175, r: 30, label: 'Cloudflare', color: '#f6821f', cdnSlug: 'cloudflare' },
-        { id: 'waf', x: cx + 108, y: cy - 140, r: 20, label: 'WAF', color: '#ef4444', icon: 'shield' },
-        { id: 'dns', x: cx - 108, y: cy - 140, r: 19, label: 'DNS', color: '#06b6d4', icon: 'globe' },
-        { id: 'bgp', x: cx + 172, y: cy - 68, r: 21, label: 'BGP', color: '#00e5ff' },
-        { id: 'ospf', x: cx + 182, y: cy + 28, r: 17, label: 'OSPF', color: '#a78bfa' },
-        { id: 'mpls', x: cx + 118, y: cy + 168, r: 19, label: 'MPLS', color: '#f472b6' },
-        { id: 'azure', x: cx - 118, y: cy + 168, r: 22, label: 'Azure', color: '#0078d4', localIcon: 'icons/azure.svg' },
-        { id: 'aws', x: cx - 182, y: cy + 28, r: 21, label: 'AWS', color: '#ff9900', localIcon: 'icons/aws-clean.svg' },
-        { id: 'sec', x: cx - 172, y: cy - 68, r: 18, label: 'F5/FW', color: '#facc15', icon: 'lock' },
-        { id: 'py', x: cx + 65, y: cy - 170, r: 18, label: 'Python', color: '#3776ab', cdnSlug: 'python' },
-        { id: 'cloud', x: cx, y: cy + 182, r: 17, label: 'CLOUD', color: '#34d399' },
+    // 5 branches: 4 tech + 1 personal (warm, always visible but subtle)
+    const branches = [
+        {
+            id: 'cloud', label: 'Cloud', x: 280, y: 108, r: 30, color: '#3b8bff',
+            leaves: [
+                { id: 'cf',    label: 'Cloudflare', x: 182, y: 48,  r: 24, color: '#f6821f', cdnSlug: 'cloudflare' },
+                { id: 'aws',   label: 'AWS',        x: 285, y: 38,  r: 21, color: '#ff9900', localIcon: 'icons/aws-clean.svg' },
+                { id: 'azure', label: 'Azure',      x: 378, y: 58,  r: 21, color: '#0078d4', localIcon: 'icons/azure.svg' },
+            ],
+        },
+        {
+            id: 'automation', label: 'Automation', x: 440, y: 200, r: 28, color: '#a78bfa',
+            leaves: [
+                { id: 'python', label: 'Python',    x: 492, y: 118, r: 20, color: '#3776ab', cdnSlug: 'python' },
+                { id: 'tf',     label: 'Terraform', x: 508, y: 212, r: 17, color: '#a78bfa' },
+                { id: 'iac',    label: 'IaC / Git', x: 472, y: 298, r: 16, color: '#c4b5fd' },
+            ],
+        },
+        {
+            id: 'security', label: 'Security', x: 400, y: 400, r: 27, color: '#ef4444',
+            leaves: [
+                { id: 'waf', label: 'WAF',   x: 462, y: 340, r: 17, color: '#ef4444' },
+                { id: 'dns', label: 'DNS',   x: 462, y: 428, r: 17, color: '#06b6d4' },
+                { id: 'f5',  label: 'F5/FW', x: 390, y: 465, r: 16, color: '#facc15' },
+            ],
+        },
+        {
+            id: 'personal', label: 'Endurance', x: 135, y: 400, r: 25, color: '#f97316',
+            personal: true, personalIcon: 'heart',
+            leaves: [
+                { id: 'runner',    label: 'Runner',    x: 65,  y: 352, r: 18, color: '#fb923c', personalIcon: 'runner'    },
+                { id: 'cyclist',   label: 'Cyclist',   x: 58,  y: 440, r: 17, color: '#fbbf24', personalIcon: 'cyclist'   },
+                { id: 'nutrition', label: 'Nutrition', x: 155, y: 472, r: 15, color: '#4ade80', personalIcon: 'nutrition' },
+            ],
+        },
+        {
+            id: 'network', label: 'Network', x: 92, y: 208, r: 30, color: '#00e5ff',
+            leaves: [
+                { id: 'bgp',  label: 'BGP',  x: 36, y: 140, r: 20, color: '#00e5ff' },
+                { id: 'ospf', label: 'OSPF', x: 28, y: 232, r: 17, color: '#7dd3fc' },
+                { id: 'mpls', label: 'MPLS', x: 55, y: 312, r: 17, color: '#7dd3fc' },
+            ],
+        },
     ];
 
-    const edges = [
-        ['core', 'cf'], ['core', 'bgp'], ['core', 'ospf'],
-        ['core', 'mpls'], ['core', 'azure'], ['core', 'aws'],
-        ['core', 'sec'], ['core', 'cloud'],
-        ['cf', 'waf'], ['cf', 'dns'], ['cf', 'py'],
-        ['waf', 'bgp'], ['mpls', 'cloud'], ['azure', 'cloud'],
-        ['aws', 'cloud'],
-    ];
-
-    // Build SVG — no fixed width/height, CSS controls rendered size via viewBox
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
 
-    // Defs: glow filters
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     defs.innerHTML = `
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="softglow" x="-100%" y="-100%" width="300%" height="300%">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  `;
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="softglow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="10" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+    `;
     svg.appendChild(defs);
 
-    // Draw edges
-    const edgeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    edges.forEach(([a, b], i) => {
-        const na = nodes.find(n => n.id === a);
-        const nb = nodes.find(n => n.id === b);
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', na.x); line.setAttribute('y1', na.y);
-        line.setAttribute('x2', nb.x); line.setAttribute('y2', nb.y);
-        line.setAttribute('stroke', 'rgba(99,179,255,0.2)');
-        line.setAttribute('stroke-width', '1.5');
-        line.setAttribute('stroke-dasharray', '4 4');
-        line.style.animation = `dashFlow 3s linear infinite`;
-        line.style.animationDelay = `${i * 0.35}s`;
-        edgeGroup.appendChild(line);
-    });
-    svg.appendChild(edgeGroup);
+    // Quadratic bezier: midpoint control pulled slightly toward canvas centre
+    function qCurve(x1, y1, x2, y2, inward = 0.1) {
+        const mx = (x1 + x2) / 2 + (cx - (x1 + x2) / 2) * inward;
+        const my = (y1 + y2) / 2 + (cy - (y1 + y2) / 2) * inward;
+        return `M${x1},${y1} Q${mx},${my} ${x2},${y2}`;
+    }
 
-    // Animated data packets
-    const packetGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    edges.forEach(([a, b], i) => {
-        const na = nodes.find(n => n.id === a);
-        const nb = nodes.find(n => n.id === b);
-        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        dot.setAttribute('r', '3');
-        dot.setAttribute('fill', '#3b8bff');
-        dot.setAttribute('opacity', '0.8');
-        dot.setAttribute('filter', 'url(#glow)');
-        const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
-        anim.setAttribute('dur', `${2.5 + i * 0.4}s`);
-        anim.setAttribute('repeatCount', 'indefinite');
-        anim.setAttribute('begin', `${i * 0.6}s`);
-        anim.setAttribute('path', `M${na.x},${na.y} L${nb.x},${nb.y}`);
-        anim.setAttribute('keyPoints', '0;1');
-        anim.setAttribute('keyTimes', '0;1');
-        anim.setAttribute('calcMode', 'linear');
-        dot.appendChild(anim);
-        packetGroup.appendChild(dot);
-    });
-    svg.appendChild(packetGroup);
+    // --- Connection layer ---
+    const connLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
-    // Draw nodes
-    const nodeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    nodes.forEach(n => {
+    branches.forEach((branch, bi) => {
+        const isPersonal = !!branch.personal;
+        const delay = bi * 0.18;
+
+        // Centre → Hub
+        const mainP = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        mainP.setAttribute('d', qCurve(cx, cy, branch.x, branch.y));
+        mainP.setAttribute('stroke', branch.color);
+        mainP.setAttribute('stroke-width', isPersonal ? '1.5' : '2.2');
+        mainP.setAttribute('fill', 'none');
+        if (isPersonal) {
+            mainP.style.cssText = `stroke-dasharray:5 4; animation:mmFadeIn 0.9s ease-out ${delay}s both;`;
+        } else {
+            mainP.setAttribute('pathLength', '100');
+            mainP.style.cssText = `opacity:0.4; stroke-dasharray:100 100; stroke-dashoffset:100; animation:mmPathGrow 1s ease-out ${delay}s both;`;
+        }
+        connLayer.appendChild(mainP);
+
+        // Hub → Leaves
+        branch.leaves.forEach((leaf, li) => {
+            const leafP = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            leafP.setAttribute('d', qCurve(branch.x, branch.y, leaf.x, leaf.y, 0));
+            leafP.setAttribute('stroke', leaf.color);
+            leafP.setAttribute('stroke-width', '1.2');
+            leafP.setAttribute('fill', 'none');
+            const leafDelay = delay + 0.6 + li * 0.1;
+            if (isPersonal) {
+                leafP.style.cssText = `stroke-dasharray:3 3; animation:mmFadeIn 0.7s ease-out ${leafDelay}s both;`;
+            } else {
+                leafP.setAttribute('pathLength', '100');
+                leafP.style.cssText = `opacity:0.28; stroke-dasharray:100 100; stroke-dashoffset:100; animation:mmPathGrow 0.7s ease-out ${leafDelay}s both;`;
+            }
+            connLayer.appendChild(leafP);
+        });
+    });
+
+    svg.appendChild(connLayer);
+
+    // --- Node layer ---
+    const nodeLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+    // Centre node
+    const centerG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    centerG.setAttribute('class', 'mm-node');
+
+    const outerRing = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    outerRing.setAttribute('cx', cx); outerRing.setAttribute('cy', cy); outerRing.setAttribute('r', '56');
+    outerRing.setAttribute('fill', 'none'); outerRing.setAttribute('stroke', '#3b8bff');
+    outerRing.setAttribute('stroke-width', '1');
+    outerRing.style.animation = 'mmRingPulse 4s ease-in-out infinite';
+
+    const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    centerCircle.setAttribute('cx', cx); centerCircle.setAttribute('cy', cy); centerCircle.setAttribute('r', '44');
+    centerCircle.setAttribute('fill', 'rgba(59,139,255,0.13)');
+    centerCircle.setAttribute('stroke', '#3b8bff'); centerCircle.setAttribute('stroke-width', '2');
+    centerCircle.setAttribute('filter', 'url(#softglow)');
+
+    const ct1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    ct1.setAttribute('x', cx); ct1.setAttribute('y', cy - 7);
+    ct1.setAttribute('text-anchor', 'middle'); ct1.setAttribute('dominant-baseline', 'middle');
+    ct1.setAttribute('fill', '#3b8bff'); ct1.setAttribute('font-family', 'Inter, sans-serif');
+    ct1.setAttribute('font-size', '18'); ct1.setAttribute('font-weight', '800');
+    ct1.textContent = 'SS';
+
+    const ct2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    ct2.setAttribute('x', cx); ct2.setAttribute('y', cy + 10);
+    ct2.setAttribute('text-anchor', 'middle'); ct2.setAttribute('dominant-baseline', 'middle');
+    ct2.setAttribute('fill', '#7dd3fc'); ct2.setAttribute('font-family', 'JetBrains Mono, monospace');
+    ct2.setAttribute('font-size', '6.5'); ct2.setAttribute('font-weight', '500');
+    ct2.textContent = '12+ years';
+
+    centerG.appendChild(outerRing); centerG.appendChild(centerCircle);
+    centerG.appendChild(ct1); centerG.appendChild(ct2);
+    centerG.style.animation = 'mmNodeIn 0.5s ease-out 0s both';
+    nodeLayer.appendChild(centerG);
+
+    // Helper: render one branch hub or leaf node
+    function drawNode(n, delay, isPersonal) {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'mm-node');
 
-        // Outer glow ring
-        const glow = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        glow.setAttribute('cx', n.x); glow.setAttribute('cy', n.y);
-        glow.setAttribute('r', n.r + 8);
-        glow.setAttribute('fill', 'none');
-        glow.setAttribute('stroke', n.color);
-        glow.setAttribute('stroke-width', '1');
-        glow.setAttribute('opacity', '0.2');
-        glow.style.animation = `nodePulse 3s ease-in-out infinite`;
-        glow.style.animationDelay = `${Math.random() * 2}s`;
+        // Glow ring
+        const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        ring.setAttribute('cx', n.x); ring.setAttribute('cy', n.y); ring.setAttribute('r', n.r + 6);
+        ring.setAttribute('fill', 'none'); ring.setAttribute('stroke', n.color); ring.setAttribute('stroke-width', '1');
+        ring.style.animation = `mmRingPulse 3s ease-in-out ${(Math.random() * 2).toFixed(1)}s infinite`;
 
-        // Circle body
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y);
-        circle.setAttribute('r', n.r);
-        circle.setAttribute('fill', `rgba(${hexToRgb(n.color)},0.15)`);
-        circle.setAttribute('stroke', n.color);
-        circle.setAttribute('stroke-width', '1.5');
-        if (n.id === 'core') circle.setAttribute('filter', 'url(#softglow)');
+        // Body
+        const body = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        body.setAttribute('cx', n.x); body.setAttribute('cy', n.y); body.setAttribute('r', n.r);
+        body.setAttribute('fill', `rgba(${hexToRgb(n.color)},0.12)`);
+        body.setAttribute('stroke', n.color);
+        body.setAttribute('stroke-width', isPersonal ? '1.2' : '1.5');
+        if (isPersonal) body.setAttribute('stroke-dasharray', '4 2');
 
-        g.appendChild(glow);
-        g.appendChild(circle);
+        g.appendChild(ring);
+        g.appendChild(body);
 
         if (n.localIcon || n.cdnSlug) {
-            // Real brand logo — local file or Simple Icons CDN
+            // Brand icon (Cloudflare, AWS, Azure, Python)
             const iconUrl = n.localIcon
                 ? n.localIcon
                 : `https://cdn.simpleicons.org/${n.cdnSlug}/${n.color.replace('#', '')}`;
-            const iconSize = n.r * 1.1;
+            const sz = n.r * 1.05;
             const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
             img.setAttribute('href', iconUrl);
-            img.setAttribute('x', n.x - iconSize / 2);
-            img.setAttribute('y', n.y - iconSize / 2 - n.r * 0.15);
-            img.setAttribute('width', iconSize);
-            img.setAttribute('height', iconSize);
+            img.setAttribute('x', n.x - sz / 2); img.setAttribute('y', n.y - sz / 2 - n.r * 0.14);
+            img.setAttribute('width', sz); img.setAttribute('height', sz);
             img.setAttribute('preserveAspectRatio', 'xMidYMid meet');
             g.appendChild(img);
 
-            // Label below icon, inside circle
             const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            lbl.setAttribute('x', n.x);
-            lbl.setAttribute('y', n.y + n.r * 0.72);
-            lbl.setAttribute('text-anchor', 'middle');
-            lbl.setAttribute('dominant-baseline', 'middle');
-            lbl.setAttribute('fill', n.color);
-            lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
+            lbl.setAttribute('x', n.x); lbl.setAttribute('y', n.y + n.r * 0.72);
+            lbl.setAttribute('text-anchor', 'middle'); lbl.setAttribute('dominant-baseline', 'middle');
+            lbl.setAttribute('fill', n.color); lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
             lbl.setAttribute('font-size', Math.max(5, Math.round(n.r * 0.28)));
             lbl.setAttribute('font-weight', '700');
             lbl.textContent = n.label;
             g.appendChild(lbl);
 
-        } else if (n.icon && iconPaths[n.icon]) {
-            // Concept icon — inline SVG path (shield / globe / lock)
-            const iconSize = n.r * 1.15;
-            const iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            iconSvg.setAttribute('x', n.x - iconSize / 2);
-            iconSvg.setAttribute('y', n.y - iconSize / 2 - n.r * 0.12);
-            iconSvg.setAttribute('width', iconSize);
-            iconSvg.setAttribute('height', iconSize);
-            iconSvg.setAttribute('viewBox', '0 0 24 24');
-            iconSvg.setAttribute('overflow', 'visible');
+        } else if (n.personalIcon && personalIcons[n.personalIcon]) {
+            // Personal activity icon (filled path)
+            const sz = n.r * 1.05;
+            const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            wrap.setAttribute('x', n.x - sz / 2); wrap.setAttribute('y', n.y - sz / 2 - n.r * 0.12);
+            wrap.setAttribute('width', sz); wrap.setAttribute('height', sz);
+            wrap.setAttribute('viewBox', '0 0 24 24');
             const ip = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            ip.setAttribute('d', iconPaths[n.icon]);
-            ip.setAttribute('fill', 'none');
-            ip.setAttribute('stroke', n.color);
-            ip.setAttribute('stroke-width', n.r < 20 ? '2.5' : '2');
-            ip.setAttribute('stroke-linecap', 'round');
-            ip.setAttribute('stroke-linejoin', 'round');
-            iconSvg.appendChild(ip);
-            g.appendChild(iconSvg);
+            ip.setAttribute('d', personalIcons[n.personalIcon]);
+            ip.setAttribute('fill', n.color); ip.setAttribute('opacity', '0.85');
+            wrap.appendChild(ip);
+            g.appendChild(wrap);
 
-            // Label below icon, inside circle
             const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            lbl.setAttribute('x', n.x);
-            lbl.setAttribute('y', n.y + n.r * 0.68);
-            lbl.setAttribute('text-anchor', 'middle');
-            lbl.setAttribute('dominant-baseline', 'middle');
-            lbl.setAttribute('fill', n.color);
-            lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
-            lbl.setAttribute('font-size', Math.max(6, Math.round(n.r * 0.31)));
+            lbl.setAttribute('x', n.x); lbl.setAttribute('y', n.y + n.r * 0.75);
+            lbl.setAttribute('text-anchor', 'middle'); lbl.setAttribute('dominant-baseline', 'middle');
+            lbl.setAttribute('fill', n.color); lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
+            lbl.setAttribute('font-size', Math.max(5, Math.round(n.r * 0.29)));
             lbl.setAttribute('font-weight', '700');
             lbl.textContent = n.label;
             g.appendChild(lbl);
 
         } else {
-            // Text-only node (CORE + protocol names: BGP, OSPF, MPLS, CLOUD)
-            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            text.setAttribute('x', n.x); text.setAttribute('y', n.y + 1);
-            text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('dominant-baseline', 'middle');
-            text.setAttribute('fill', n.color);
-            text.setAttribute('font-family', 'JetBrains Mono, monospace');
-            text.setAttribute('font-size', n.id === 'core' ? '10' : '8');
-            text.setAttribute('font-weight', '700');
-            text.textContent = n.label;
-            g.appendChild(text);
+            // Text-only node (protocol names + hub labels)
+            const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            txt.setAttribute('x', n.x); txt.setAttribute('y', n.y + 1);
+            txt.setAttribute('text-anchor', 'middle'); txt.setAttribute('dominant-baseline', 'middle');
+            txt.setAttribute('fill', n.color); txt.setAttribute('font-family', 'JetBrains Mono, monospace');
+            txt.setAttribute('font-size', Math.min(9, Math.max(6, Math.round(n.r * 0.3))));
+            txt.setAttribute('font-weight', '700');
+            txt.textContent = n.label;
+            g.appendChild(txt);
         }
 
+        g.style.animation = `mmNodeIn 0.45s ease-out ${delay}s both`;
+        return g;
+    }
 
-        nodeGroup.appendChild(g);
+    branches.forEach((branch, bi) => {
+        const isPersonal = !!branch.personal;
+        const hubDelay = bi * 0.18 + 0.3;
+        nodeLayer.appendChild(drawNode(branch, hubDelay, isPersonal));
+        branch.leaves.forEach((leaf, li) => {
+            nodeLayer.appendChild(drawNode(leaf, hubDelay + 0.5 + li * 0.1, isPersonal));
+        });
     });
-    svg.appendChild(nodeGroup);
 
-    // CSS keyframes
+    svg.appendChild(nodeLayer);
+
+    // CSS keyframes injected into SVG
     const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     style.textContent = `
-    @keyframes dashFlow { to { stroke-dashoffset: -20; } }
-    @keyframes nodePulse { 0%,100%{opacity:.15} 50%{opacity:.35} }
-  `;
+        .mm-node { transform-box: fill-box; transform-origin: center; }
+        @keyframes mmPathGrow  { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+        @keyframes mmFadeIn    { from { opacity: 0; } to { opacity: 0.3; } }
+        @keyframes mmRingPulse { 0%,100%{opacity:.08} 50%{opacity:.28} }
+        @keyframes mmNodeIn    { from { opacity:0; transform:scale(0.35); } to { opacity:1; transform:scale(1); } }
+    `;
     svg.appendChild(style);
 
     container.appendChild(svg);
@@ -347,7 +395,7 @@ function hexToRgb(hex) {
         : '59,139,255';
 }
 
-buildNetworkGraph();
+buildMindMap();
 
 /* ---- Smooth scroll offset for fixed nav ---- */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
