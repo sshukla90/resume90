@@ -387,14 +387,18 @@ document.querySelectorAll('.skill-tags span, .tech-tag').forEach(tag => {
     badge.textContent = '';
     const slot = document.createElement('span');
     badge.appendChild(slot);
+    // Initialise slot with zero-width space so badge is full height from the start
+    slot.textContent = '\u200b';
 
     function tick() {
         const full = texts[i];
         if (!deleting) {
-            slot.textContent = full.slice(0, j++);
+            const next = full.slice(0, j++);
+            slot.textContent = next || '\u200b'; // never empty — preserves badge height
             if (j > full.length) { setTimeout(tick, 2000); deleting = true; return; }
         } else {
-            slot.textContent = full.slice(0, j--);
+            const prev = full.slice(0, j--);
+            slot.textContent = prev || '\u200b'; // never empty — preserves badge height
             if (j < 0) { deleting = false; i = (i + 1) % texts.length; j = 0; }
         }
         setTimeout(tick, deleting ? 40 : 75);

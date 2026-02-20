@@ -288,6 +288,7 @@ body {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 500;
+  line-height: 1.5;
   color: var(--cyan);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -298,6 +299,15 @@ body {
   margin-bottom: 1.25rem;
   white-space: nowrap;
   /* prevents badge from growing taller on long text */
+  /* Lock height: prevents shift when typing slot is empty between transitions */
+  min-height: 2rem;
+}
+
+/* Typing slot — always occupies at least 1 character height */
+.hero-badge span {
+  display: inline-block;
+  min-height: 1.2em;
+  min-width: 2px;
 }
 
 .hero-badge::before {
