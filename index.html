@@ -4,9 +4,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shriniwas Shukla — Staff Network Engineer</title>
+    <title>Shriniwas Shukla — Senior Cloud &amp; Network Engineer</title>
     <meta name="description"
-        content="Resume of Shriniwas Shukla, Staff Network Engineer with 11+ years of expertise in BGP, OSPF, MPLS, Cloud (AWS/Azure), and Network Automation." />
+        content="Resume of Shriniwas Shukla, Senior Cloud &amp; Network Engineer with 12+ years expertise in BGP, OSPF, MPLS, Cloudflare, AWS, Azure, and Python automation." />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <!-- Open Graph / Social Preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://resume90.pages.dev" />
+    <meta property="og:title" content="Shriniwas Shukla — Senior Cloud &amp; Network Engineer" />
+    <meta property="og:description"
+        content="12+ years expertise in BGP, OSPF, MPLS, Cloudflare, AWS, Azure &amp; Python automation. Currently Senior Cloud Engineer at Swiss Re, Bengaluru." />
+    <meta property="og:image" content="https://resume90.pages.dev/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Shriniwas Shukla — Senior Cloud &amp; Network Engineer" />
+    <meta name="twitter:description"
+        content="12+ years expertise in BGP, OSPF, MPLS, Cloudflare, AWS, Azure &amp; Python automation." />
+    <meta name="twitter:image" content="https://resume90.pages.dev/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -36,6 +50,24 @@
             <li><a href="#education" class="nav-link">Education</a></li>
             <li><a href="#contact" class="nav-link cta-btn">Contact</a></li>
         </ul>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode"
+            title="Toggle light/dark mode">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                style="display:none">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+        </button>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
             <span></span><span></span><span></span>
         </button>
@@ -76,6 +108,14 @@
                         </svg>
                         linkedin.com/in/sshukla90
                     </a>
+                    <a href="https://github.com/sshukla90" target="_blank" rel="noopener" class="contact-chip"
+                        id="github-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
+                        github.com/sshukla90
+                    </a>
                     <span class="contact-chip" id="location-chip">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -86,6 +126,15 @@
                 </div>
                 <div class="hero-cta reveal">
                     <a href="#experience" class="btn-primary" id="view-experience-btn">View Experience</a>
+                    <button onclick="window.print()" class="btn-secondary" id="download-cv-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            style="width:16px;height:16px">
+                            <polyline points="8 17 12 21 16 17" />
+                            <line x1="12" y1="12" x2="12" y2="21" />
+                            <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29" />
+                        </svg>
+                        Download CV
+                    </button>
                     <a href="#contact" class="btn-secondary" id="contact-btn">Get In Touch</a>
                 </div>
             </div>
@@ -157,15 +206,16 @@
                                 <li>Part of the Edge and Connectivity Services team, focusing on Cloudflare as a
                                     platform for enterprise-grade networking.</li>
                                 <li>Manage network infrastructure deployment, architecture design, and migration
-                                    projects.</li>
+                                    projects across enterprise scale.</li>
+                                <li>Built Cloudflare automation suite using Python &amp; Terraform — cutting zone
+                                    onboarding, WAF rule creation, and DNS management from hours of manual effort to
+                                    minutes.</li>
                                 <li>Develop and maintain automation workflows and Terraform IaC for Cloudflare
-                                    infrastructure.</li>
-                                <li>Modify and manage Cloudflare configurations using the API, Terraform, and Python for
-                                    seamless automation.</li>
-                                <li>Created automation scripts for Cloudflare workflows: zone onboarding, WAF rule
-                                    creation, DNS record creation and deletion.</li>
-                                <li>Provide last-level support during P1 outages and collaborate with customers to
-                                    resolve integration challenges.</li>
+                                    infrastructure, enabling repeatable, version-controlled configuration.</li>
+                                <li>Provide last-level support during P1 outages; primary escalation point for
+                                    Cloudflare platform issues.</li>
+                                <li>Collaborate with customers to resolve integration challenges and improve
+                                    documentation.</li>
                             </ul>
                             <div class="tech-tags">
                                 <span class="tech-tag">Cloudflare</span><span class="tech-tag">Terraform</span><span
@@ -197,18 +247,17 @@
                             <ul class="job-bullets">
                                 <li>IC contributor on Network infrastructure (Edge &amp; Enterprise) design, Migration
                                     projects, NetDevOps, and POC Projects in a multi-vendor environment.</li>
-                                <li>Worked on escalated routing (BGP, OSPF, MPLS, VPN) &amp; switching, firewall and
-                                    load balancer issues.</li>
-                                <li>Collaborated with ISPs for planned peering changes and routing manipulations.</li>
-                                <li>Supported hybrid infrastructure: On-Prem (spine-leaf, BGP peering, MPLS VPN,
-                                    SD-WAN/Viptela) &amp; Cloud (AWS Direct Connect, Azure ExpressRoute); Network
-                                    Virtualization: VMware NSX-T.</li>
-                                <li>Created network automation scripts for regular checks, maintenance, configuration
-                                    template creation, and troubleshooting.</li>
-                                <li>Reviewed PRs for IaC (Terraform) related to cloud infrastructure support and
-                                    deployment.</li>
-                                <li>Collaborated with Change Management, Incident Management, and Solution Architects.
-                                </li>
+                                <li>Resolved escalated routing (BGP, OSPF, MPLS, VPN), switching, firewall and load
+                                    balancer incidents — reducing MTTR through systematic lab-based pre-validation.</li>
+                                <li>Designed and maintained hybrid network spanning on-prem spine-leaf, SD-WAN, AWS
+                                    Direct Connect, and Azure ExpressRoute; integrated VMware NSX-T for network
+                                    virtualization.</li>
+                                <li>Collaborated with ISPs for planned peering changes, routing manipulations, and
+                                    connectivity/latency resolution.</li>
+                                <li>Authored Python automation scripts for regular operational checks, maintenance
+                                    workflows, and configuration template generation.</li>
+                                <li>Reviewed Terraform IaC PRs for cloud infrastructure; collaborated with Change
+                                    Management, Incident Management, and Solution Architects.</li>
                             </ul>
                             <div class="tech-tags">
                                 <span class="tech-tag">BGP</span><span class="tech-tag">OSPF</span><span
@@ -277,16 +326,17 @@
                                 </div>
                             </div>
                             <ul class="job-bullets">
-                                <li>Troubleshot network incidents involving Routing &amp; Switching (BGP, OSPF), F5, and
-                                    firewalls.</li>
-                                <li>Led VPN connectivity project as Single Point of Contact (SPOC).</li>
-                                <li>Handled F5 load balancer service requests, incidents, device upgrades, and migration
-                                    support.</li>
-                                <li>Utilized Wireshark for comprehensive packet analysis.</li>
-                                <li>Established a new support team in Portugal — provided onsite technical training and
-                                    mentorship to EMEA team.</li>
-                                <li>Produced technical documentation including problem records, SOPs, and implementation
-                                    plans.</li>
+                                <li>Troubleshot network incidents involving Routing &amp; Switching (BGP, OSPF), F5 load
+                                    balancers, and firewalls for SAP Labs India's production environment.</li>
+                                <li>Led IPsec VPN connectivity project end-to-end as Single Point of Contact (SPOC),
+                                    delivering a critical cross-site security initiative.</li>
+                                <li>Handled F5 LTM/GTM service requests, incidents, upgrades, and migrations — ensuring
+                                    application availability for enterprise workloads.</li>
+                                <li><strong>Built and launched a new EMEA support team in Portugal</strong> — travelled
+                                    onsite to deliver technical training and mentorship, successfully standing up the
+                                    team within the project timeline.</li>
+                                <li>Produced RCAs, problem records, SOPs, and network implementation plans; drove change
+                                    management processes.</li>
                             </ul>
                             <div class="tech-tags">
                                 <span class="tech-tag">BGP</span><span class="tech-tag">F5 LTM/GTM</span><span
@@ -315,14 +365,16 @@
                             </div>
                             <ul class="job-bullets">
                                 <li>Configured routers and switches for new branch offices with Routing and MPLS
-                                    connectivity.</li>
-                                <li>Troubleshot routing and switching issues including multicast configuration and
-                                    support.</li>
-                                <li>Administered Juniper SRX, Checkpoint firewalls, and Cisco ASA.</li>
-                                <li>Upgraded Cisco routers, switches, and firewalls; planned and implemented change
-                                    requests.</li>
-                                <li>Provided IPsec VPN implementation and troubleshooting for customers.</li>
-                                <li>Created SOPs and POC documentation for configuration standardization.</li>
+                                    connectivity; supported customers through operational handover.</li>
+                                <li>Administered and troubleshot Juniper SRX, Checkpoint firewalls, and Cisco ASA,
+                                    gaining multi-vendor security expertise that underpins current cloud security work.
+                                </li>
+                                <li>Upgraded Cisco routers, switches, and firewalls across multiple customer sites;
+                                    planned and implemented change requests with zero unplanned downtime.</li>
+                                <li>Delivered IPsec VPN implementation and troubleshooting; managed service provider
+                                    communications for connectivity requirements.</li>
+                                <li>Created SOPs and POC documentation, establishing configuration standards that
+                                    improved team consistency and onboarding speed.</li>
                             </ul>
                             <div class="tech-tags">
                                 <span class="tech-tag">MPLS</span><span class="tech-tag">IPsec VPN</span><span
@@ -600,6 +652,45 @@
             </div>
         </section>
 
+        <!-- Blog / Articles Section -->
+        <section class="section blog-section" id="blog">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Knowledge Sharing</span>
+                    <h2 class="section-title">Articles &amp; Insights</h2>
+                </div>
+                <div class="blog-grid">
+                    <div class="blog-card reveal" id="blog-cloudflare">
+                        <div class="blog-tag">Cloudflare · Automation</div>
+                        <h4>Automating Cloudflare at Scale with Python &amp; Terraform</h4>
+                        <p>How to automate zone onboarding, WAF rule management, and DNS operations using the Cloudflare
+                            API, Python, and Terraform IaC for enterprise-grade repeatability.</p>
+                        <div class="blog-footer">
+                            <span class="blog-read">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="blog-card reveal" id="blog-bgp">
+                        <div class="blog-tag">BGP · Design</div>
+                        <h4>BGP Design Best Practices for Enterprise &amp; SP Networks</h4>
+                        <p>A deep-dive into BGP design patterns including route policy, traffic engineering, internet
+                            peering strategies, and common pitfalls in multi-vendor environments.</p>
+                        <div class="blog-footer">
+                            <span class="blog-read">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="blog-card reveal" id="blog-yang">
+                        <div class="blog-tag">YANG · NETCONF · Python</div>
+                        <h4>Network Programmability: YANG, NETCONF &amp; OpenConfig in Practice</h4>
+                        <p>From YANG data models to NETCONF/RESTCONF operations — a practical guide to programmatic
+                            network configuration and state retrieval using Python's ncclient.</p>
+                        <div class="blog-footer">
+                            <span class="blog-read">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Section -->
         <section class="section contact-section" id="contact">
             <div class="container">
@@ -641,6 +732,17 @@
                         <span class="contact-card-label">LinkedIn</span>
                         <span class="contact-card-value">linkedin.com/in/sshukla90</span>
                     </a>
+                    <a href="https://github.com/sshukla90" target="_blank" rel="noopener" class="contact-card reveal"
+                        id="contact-github-card">
+                        <div class="contact-card-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                            </svg>
+                        </div>
+                        <span class="contact-card-label">GitHub</span>
+                        <span class="contact-card-value">github.com/sshukla90</span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -649,11 +751,14 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>© 2024 Shriniwas Shukla · Staff Network Engineer · Bengaluru, India</p>
+            <p>© 2025 Shriniwas Shukla · Senior Cloud &amp; Network Engineer · Bengaluru, India</p>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <!-- Cloudflare Web Analytics -->
+    <!-- To activate: go to Cloudflare Dashboard → Analytics & Logs → Web Analytics → Add Site → copy your token below -->
+    <!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "YOUR_TOKEN_HERE"}'></script> -->
 </body>
 
 </html>

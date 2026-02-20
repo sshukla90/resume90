@@ -37,6 +37,35 @@ navLinksEl.querySelectorAll('a').forEach(a => {
     });
 });
 
+/* ---- Dark / Light mode toggle ---- */
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+const iconMoon = themeToggle.querySelector('.icon-moon');
+const iconSun = themeToggle.querySelector('.icon-sun');
+
+// Restore saved preference
+const savedTheme = localStorage.getItem('theme') || 'dark';
+if (savedTheme === 'light') {
+    html.setAttribute('data-theme', 'light');
+    iconMoon.style.display = 'none';
+    iconSun.style.display = 'block';
+}
+
+themeToggle.addEventListener('click', () => {
+    const isLight = html.getAttribute('data-theme') === 'light';
+    if (isLight) {
+        html.removeAttribute('data-theme');
+        iconMoon.style.display = 'block';
+        iconSun.style.display = 'none';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        html.setAttribute('data-theme', 'light');
+        iconMoon.style.display = 'none';
+        iconSun.style.display = 'block';
+        localStorage.setItem('theme', 'light');
+    }
+});
+
 /* ---- Intersection Observer: reveal animations ---- */
 const revealEls = document.querySelectorAll('.reveal, .reveal-item');
 
@@ -98,20 +127,21 @@ function buildNetworkGraph() {
     // Node definitions
     const nodes = [
         { id: 'core', x: cx, y: cy, r: 28, label: 'CORE', color: '#3b8bff' },
-        { id: 'bgp', x: cx, y: cy - 130, r: 20, label: 'BGP', color: '#00e5ff' },
-        { id: 'ospf', x: cx + 120, y: cy - 60, r: 18, label: 'OSPF', color: '#a78bfa' },
-        { id: 'mpls', x: cx + 120, y: cy + 60, r: 18, label: 'MPLS', color: '#f472b6' },
-        { id: 'cloud', x: cx, y: cy + 130, r: 20, label: 'CLOUD', color: '#34d399' },
-        { id: 'aws', x: cx - 120, y: cy + 60, r: 18, label: 'AWS', color: '#fb923c' },
-        { id: 'sec', x: cx - 120, y: cy - 60, r: 18, label: 'F5/FW', color: '#facc15' },
-        { id: 'py', x: cx - 55, y: cy - 135, r: 14, label: 'Python', color: '#60a5fa' },
+        { id: 'cf', x: cx, y: cy - 140, r: 22, label: 'CF', color: '#f6821f' },
+        { id: 'bgp', x: cx + 100, y: cy - 90, r: 18, label: 'BGP', color: '#00e5ff' },
+        { id: 'ospf', x: cx + 130, y: cy + 20, r: 16, label: 'OSPF', color: '#a78bfa' },
+        { id: 'mpls', x: cx + 80, y: cy + 120, r: 18, label: 'MPLS', color: '#f472b6' },
+        { id: 'cloud', x: cx - 80, y: cy + 120, r: 18, label: 'CLOUD', color: '#34d399' },
+        { id: 'aws', x: cx - 130, y: cy + 20, r: 16, label: 'AWS', color: '#fb923c' },
+        { id: 'sec', x: cx - 100, y: cy - 90, r: 16, label: 'F5/FW', color: '#facc15' },
+        { id: 'py', x: cx + 45, y: cy - 135, r: 13, label: 'Python', color: '#60a5fa' },
     ];
 
     const edges = [
-        ['core', 'bgp'], ['core', 'ospf'], ['core', 'mpls'],
-        ['core', 'cloud'], ['core', 'aws'], ['core', 'sec'],
-        ['bgp', 'py'], ['bgp', 'ospf'], ['cloud', 'aws'],
-        ['core', 'py'],
+        ['core', 'cf'], ['core', 'bgp'], ['core', 'ospf'],
+        ['core', 'mpls'], ['core', 'cloud'], ['core', 'aws'],
+        ['core', 'sec'], ['bgp', 'py'], ['cf', 'py'],
+        ['cf', 'bgp'], ['cloud', 'aws'],
     ];
 
     // Build SVG
@@ -261,9 +291,10 @@ document.querySelectorAll('.skill-tags span, .tech-tag').forEach(tag => {
     const badge = document.querySelector('.hero-badge');
     if (!badge) return;
     const texts = [
-        'Staff Network Engineer',
+        'Senior Cloud Engineer',
         'BGP · OSPF · MPLS Expert',
-        'Cloud & Automation Pro',
+        'Cloudflare Platform Engineer',
+        'Network Automation Pro',
         'Network Architect',
     ];
     let i = 0, j = 0, deleting = false;
