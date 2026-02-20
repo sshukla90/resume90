@@ -270,10 +270,10 @@ body {
   z-index: 1;
   min-height: 100vh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  padding: 10rem 5vw 4rem;
-  gap: 3rem;
+  padding: 7rem 5vw 4rem;
+  gap: 2rem;
 }
 
 .hero-content {
@@ -445,15 +445,16 @@ body {
    ============================================ */
 .hero-visual {
   flex: 0 0 auto;
+  align-self: stretch;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(720px, 55vw);
+  width: min(800px, 58vw);
 }
 
 .network-graph {
   width: 100%;
-  aspect-ratio: 9 / 7;
+  height: 100%;
   position: relative;
   opacity: 0.95;
   will-change: transform;

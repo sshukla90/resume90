@@ -203,6 +203,7 @@ function buildMindMap() {
     // ── SVG scaffold ──
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('preserveAspectRatio', 'xMaxYMid slice');
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
 
