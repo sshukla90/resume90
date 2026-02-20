@@ -144,8 +144,8 @@ function buildNetworkGraph() {
         { id: 'bgp', x: cx + 172, y: cy - 68, r: 21, label: 'BGP', color: '#00e5ff' },
         { id: 'ospf', x: cx + 182, y: cy + 28, r: 17, label: 'OSPF', color: '#a78bfa' },
         { id: 'mpls', x: cx + 118, y: cy + 168, r: 19, label: 'MPLS', color: '#f472b6' },
-        { id: 'azure', x: cx - 118, y: cy + 168, r: 22, label: 'Azure', color: '#0078d4', cdnSlug: 'microsoftazure' },
-        { id: 'aws', x: cx - 182, y: cy + 28, r: 21, label: 'AWS', color: '#ff9900', cdnSlug: 'amazonwebservices' },
+        { id: 'azure', x: cx - 118, y: cy + 168, r: 22, label: 'Azure', color: '#0078d4', localIcon: 'icons/azure.svg' },
+        { id: 'aws', x: cx - 182, y: cy + 28, r: 21, label: 'AWS', color: '#ff9900', localIcon: 'icons/aws-clean.svg' },
         { id: 'sec', x: cx - 172, y: cy - 68, r: 18, label: 'F5/FW', color: '#facc15', icon: 'lock' },
         { id: 'py', x: cx + 65, y: cy - 170, r: 18, label: 'Python', color: '#3776ab', cdnSlug: 'python' },
         { id: 'cloud', x: cx, y: cy + 182, r: 17, label: 'CLOUD', color: '#34d399' },
@@ -248,14 +248,14 @@ function buildNetworkGraph() {
         g.appendChild(glow);
         g.appendChild(circle);
 
-        if (n.cdnSlug) {
-            // Real brand logo via Simple Icons CDN (CC0, free)
-            // URL: https://cdn.simpleicons.org/[slug]/[hexcolor-no-#]
-            const hexColor = n.color.replace('#', '');
-            const cdnUrl = `https://cdn.simpleicons.org/${n.cdnSlug}/${hexColor}`;
+        if (n.localIcon || n.cdnSlug) {
+            // Real brand logo — local file or Simple Icons CDN
+            const iconUrl = n.localIcon
+                ? n.localIcon
+                : `https://cdn.simpleicons.org/${n.cdnSlug}/${n.color.replace('#', '')}`;
             const iconSize = n.r * 1.1;
             const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-            img.setAttribute('href', cdnUrl);
+            img.setAttribute('href', iconUrl);
             img.setAttribute('x', n.x - iconSize / 2);
             img.setAttribute('y', n.y - iconSize / 2 - n.r * 0.15);
             img.setAttribute('width', iconSize);
