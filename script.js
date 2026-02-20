@@ -121,23 +121,35 @@ function buildNetworkGraph() {
     const container = document.getElementById('network-graph');
     if (!container) return;
 
-    const W = 480, H = 480;
+    const W = 560, H = 560;
     const cx = W / 2, cy = H / 2;
 
-    // Node definitions — 12 nodes across 480×480 canvas
+    // Feather-style outline icon paths (24×24 viewBox)
+    const iconPaths = {
+        cloud: 'M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z',
+        shield: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+        globe: 'M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 0v20M2 12h20M4.9 4.9C7 7 9.4 8 12 8s5-1 7.1-3.1M4.9 19.1C7 17 9.4 16 12 16s5 1 7.1 3.1',
+        code: 'M10 20l4-16M4 9L0 12l4 3M20 9l4 3-4 3',
+        lock: 'M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zM7 11V7a5 5 0 0 1 10 0v4',
+        prism: 'M12 2L2 21h20L12 2zm0 5l6 12H6l6-12z',
+    };
+
+    // Node definitions — 12 nodes on 560×560 canvas
+    // icon nodes: icon path rendered inside circle + label below icon
+    // text nodes: label text centred in circle
     const nodes = [
-        { id: 'core', x: cx, y: cy, r: 30, label: 'CORE', color: '#3b8bff' },
-        { id: 'cf', x: cx, y: cy - 152, r: 24, label: 'CF', color: '#f6821f' },
-        { id: 'waf', x: cx + 88, y: cy - 118, r: 16, label: 'WAF', color: '#ef4444' },
-        { id: 'dns', x: cx - 88, y: cy - 118, r: 15, label: 'DNS', color: '#06b6d4' },
-        { id: 'bgp', x: cx + 148, y: cy - 58, r: 18, label: 'BGP', color: '#00e5ff' },
-        { id: 'ospf', x: cx + 162, y: cy + 50, r: 15, label: 'OSPF', color: '#a78bfa' },
-        { id: 'mpls', x: cx + 102, y: cy + 150, r: 17, label: 'MPLS', color: '#f472b6' },
-        { id: 'azure', x: cx - 102, y: cy + 150, r: 18, label: 'AZURE', color: '#0ea5e9' },
-        { id: 'aws', x: cx - 162, y: cy + 50, r: 16, label: 'AWS', color: '#fb923c' },
-        { id: 'sec', x: cx - 148, y: cy - 58, r: 15, label: 'F5/FW', color: '#facc15' },
-        { id: 'py', x: cx + 52, y: cy - 145, r: 13, label: 'Python', color: '#60a5fa' },
-        { id: 'cloud', x: cx, y: cy + 172, r: 15, label: 'CLOUD', color: '#34d399' },
+        { id: 'core', x: cx, y: cy, r: 33, label: 'CORE', color: '#3b8bff' },
+        { id: 'cf', x: cx, y: cy - 175, r: 27, label: 'CF', color: '#f6821f', icon: 'cloud' },
+        { id: 'waf', x: cx + 108, y: cy - 140, r: 19, label: 'WAF', color: '#ef4444', icon: 'shield' },
+        { id: 'dns', x: cx - 108, y: cy - 140, r: 18, label: 'DNS', color: '#06b6d4', icon: 'globe' },
+        { id: 'bgp', x: cx + 172, y: cy - 68, r: 21, label: 'BGP', color: '#00e5ff' },
+        { id: 'ospf', x: cx + 182, y: cy + 28, r: 17, label: 'OSPF', color: '#a78bfa' },
+        { id: 'mpls', x: cx + 118, y: cy + 168, r: 19, label: 'MPLS', color: '#f472b6' },
+        { id: 'azure', x: cx - 118, y: cy + 168, r: 20, label: 'AZURE', color: '#0ea5e9', icon: 'prism' },
+        { id: 'aws', x: cx - 182, y: cy + 28, r: 19, label: 'AWS', color: '#fb923c', icon: 'cloud' },
+        { id: 'sec', x: cx - 172, y: cy - 68, r: 18, label: 'F5/FW', color: '#facc15', icon: 'lock' },
+        { id: 'py', x: cx + 65, y: cy - 170, r: 15, label: 'Python', color: '#60a5fa', icon: 'code' },
+        { id: 'cloud', x: cx, y: cy + 182, r: 17, label: 'CLOUD', color: '#34d399', icon: 'cloud' },
     ];
 
     const edges = [
@@ -155,7 +167,7 @@ function buildNetworkGraph() {
     svg.setAttribute('width', W);
     svg.setAttribute('height', H);
 
-    // Defs: glow filter + gradients
+    // Defs: glow filters
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     defs.innerHTML = `
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -186,17 +198,16 @@ function buildNetworkGraph() {
     });
     svg.appendChild(edgeGroup);
 
-    // Draw animated data packets on edges
+    // Animated data packets
     const packetGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     edges.forEach(([a, b], i) => {
         const na = nodes.find(n => n.id === a);
         const nb = nodes.find(n => n.id === b);
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('r', '3');
-        circle.setAttribute('fill', '#3b8bff');
-        circle.setAttribute('opacity', '0.8');
-        circle.setAttribute('filter', 'url(#glow)');
-
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('r', '3');
+        dot.setAttribute('fill', '#3b8bff');
+        dot.setAttribute('opacity', '0.8');
+        dot.setAttribute('filter', 'url(#glow)');
         const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
         anim.setAttribute('dur', `${2.5 + i * 0.4}s`);
         anim.setAttribute('repeatCount', 'indefinite');
@@ -205,9 +216,8 @@ function buildNetworkGraph() {
         anim.setAttribute('keyPoints', '0;1');
         anim.setAttribute('keyTimes', '0;1');
         anim.setAttribute('calcMode', 'linear');
-
-        circle.appendChild(anim);
-        packetGroup.appendChild(circle);
+        dot.appendChild(anim);
+        packetGroup.appendChild(dot);
     });
     svg.appendChild(packetGroup);
 
@@ -236,31 +246,70 @@ function buildNetworkGraph() {
         circle.setAttribute('stroke-width', '1.5');
         if (n.id === 'core') circle.setAttribute('filter', 'url(#softglow)');
 
-        // Label
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', n.x); text.setAttribute('y', n.y + 1);
-        text.setAttribute('text-anchor', 'middle'); text.setAttribute('dominant-baseline', 'middle');
-        text.setAttribute('fill', n.color);
-        text.setAttribute('font-family', 'JetBrains Mono, monospace');
-        text.setAttribute('font-size', n.id === 'core' ? '9' : '7.5');
-        text.setAttribute('font-weight', '700');
-        text.textContent = n.label;
+        g.appendChild(glow);
+        g.appendChild(circle);
 
-        g.appendChild(glow); g.appendChild(circle); g.appendChild(text);
+        if (n.icon && iconPaths[n.icon]) {
+            // Icon rendered in upper portion of circle
+            const iconSize = n.r * 1.15;
+            const iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            iconSvg.setAttribute('x', n.x - iconSize / 2);
+            iconSvg.setAttribute('y', n.y - iconSize / 2 - n.r * 0.12);
+            iconSvg.setAttribute('width', iconSize);
+            iconSvg.setAttribute('height', iconSize);
+            iconSvg.setAttribute('viewBox', '0 0 24 24');
+            iconSvg.setAttribute('overflow', 'visible');
+            const ip = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            ip.setAttribute('d', iconPaths[n.icon]);
+            ip.setAttribute('fill', 'none');
+            ip.setAttribute('stroke', n.color);
+            ip.setAttribute('stroke-width', n.r < 20 ? '2.5' : '2');
+            ip.setAttribute('stroke-linecap', 'round');
+            ip.setAttribute('stroke-linejoin', 'round');
+            iconSvg.appendChild(ip);
+            g.appendChild(iconSvg);
+
+            // Label below icon inside circle
+            const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            lbl.setAttribute('x', n.x);
+            lbl.setAttribute('y', n.y + n.r * 0.68);
+            lbl.setAttribute('text-anchor', 'middle');
+            lbl.setAttribute('dominant-baseline', 'middle');
+            lbl.setAttribute('fill', n.color);
+            lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
+            lbl.setAttribute('font-size', Math.max(6, Math.round(n.r * 0.31)));
+            lbl.setAttribute('font-weight', '700');
+            lbl.textContent = n.label;
+            g.appendChild(lbl);
+        } else {
+            // Text-only node (protocols)
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', n.x); text.setAttribute('y', n.y + 1);
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('dominant-baseline', 'middle');
+            text.setAttribute('fill', n.color);
+            text.setAttribute('font-family', 'JetBrains Mono, monospace');
+            text.setAttribute('font-size', n.id === 'core' ? '10' : '8');
+            text.setAttribute('font-weight', '700');
+            text.textContent = n.label;
+            g.appendChild(text);
+        }
+
         nodeGroup.appendChild(g);
     });
     svg.appendChild(nodeGroup);
 
-    // Inject CSS animation keyframes
+    // CSS keyframes
     const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     style.textContent = `
     @keyframes dashFlow { to { stroke-dashoffset: -20; } }
-    @keyframes nodePulse { 0%,100%{opacity:.15;r:attr(r)em} 50%{opacity:.35} }
+    @keyframes nodePulse { 0%,100%{opacity:.15} 50%{opacity:.35} }
   `;
     svg.appendChild(style);
 
     container.appendChild(svg);
 }
+
 
 function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

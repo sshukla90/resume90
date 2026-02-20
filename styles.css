@@ -436,14 +436,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(500px, 44vw);
+  width: min(580px, 50vw);
 }
 
 .network-graph {
-  width: 480px;
-  height: 480px;
+  width: 560px;
+  height: 560px;
   position: relative;
-  opacity: 0.8;
+  opacity: 0.85;
   will-change: transform;
   transform: translateZ(0);
 }
