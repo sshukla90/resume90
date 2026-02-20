@@ -83,6 +83,8 @@ body {
   filter: blur(80px);
   opacity: 0.18;
   animation: drift 20s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .orb-1 {
@@ -249,12 +251,14 @@ body {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.7s cubic-bezier(.4, 0, .2, 1), transform 0.7s cubic-bezier(.4, 0, .2, 1);
+  will-change: opacity, transform;
 }
 
 .reveal.visible,
 .reveal-item.visible {
   opacity: 1;
   transform: none;
+  will-change: auto;
 }
 
 /* ============================================
@@ -437,6 +441,8 @@ body {
   height: 400px;
   position: relative;
   opacity: 0.7;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 /* ============================================
@@ -608,6 +614,7 @@ body {
   padding: 1.75rem;
   box-shadow: var(--shadow-card);
   transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  will-change: transform;
 }
 
 .timeline-card:hover {
@@ -737,6 +744,7 @@ body {
   padding: 1.75rem;
   box-shadow: var(--shadow-card);
   transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  will-change: transform;
 }
 
 .skill-card:hover {
