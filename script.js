@@ -344,9 +344,17 @@ function buildMindMap() {
     // ── Node layer ──
     const nodeLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
-    // Centre node — "SS · 12+ years"
+    // Centre node — profile photo + "12+ years"
+    const clipId = 'profileClip';
+    const clip = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
+    clip.setAttribute('id', clipId);
+    const clipCirc = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    clipCirc.setAttribute('cx', cx); clipCirc.setAttribute('cy', cy); clipCirc.setAttribute('r', '46');
+    clip.appendChild(clipCirc);
+    defs.appendChild(clip);
+
     const cg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    cg.setAttribute('class', 'mm-node');
+    cg.setAttribute('class', 'mm-node mm-centre');
     const outerRing = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     outerRing.setAttribute('cx', cx); outerRing.setAttribute('cy', cy); outerRing.setAttribute('r', '62');
     outerRing.setAttribute('fill', 'none'); outerRing.setAttribute('stroke', '#3b8bff');
@@ -359,8 +367,20 @@ function buildMindMap() {
     cBody.setAttribute('filter', 'url(#softglow)');
     cg.appendChild(outerRing);
     cg.appendChild(cBody);
-    cg.appendChild(makeTxt(cx, cy - 8, 'SS', '#3b8bff', '22', 'middle'));
-    cg.appendChild(makeTxt(cx, cy + 14, '12+ years', '#7dd3fc', '9', 'middle'));
+    // Profile photo (falls back to SS text if image missing)
+    const profileImg = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+    profileImg.setAttribute('href', 'icons/profile.jpg');
+    profileImg.setAttribute('x', cx - 46); profileImg.setAttribute('y', cy - 46);
+    profileImg.setAttribute('width', 92); profileImg.setAttribute('height', 92);
+    profileImg.setAttribute('clip-path', `url(#${clipId})`);
+    profileImg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+    // Fallback: if image fails, show SS text instead
+    profileImg.addEventListener('error', function () {
+        this.remove();
+        cg.insertBefore(makeTxt(cx, cy - 4, 'SS', '#3b8bff', '22', 'middle'), cg.lastChild);
+    });
+    cg.appendChild(profileImg);
+    cg.appendChild(makeTxt(cx, cy + 62, '12+ years', '#7dd3fc', '10', 'middle'));
     cg.style.animation = 'mmNodeIn 0.5s ease-out 0s both';
     nodeLayer.appendChild(cg);
 
@@ -438,10 +458,8 @@ function buildMindMap() {
             g.appendChild(makeTxt(lx, ly, n.label, n.color, '13', anchor, { spacing: '0.5' }));
 
         } else {
-            // Text-only leaf (BGP, OSPF, MPLS, WAF, DNS)
-            g.appendChild(makeTxt(n.x, n.y + 1, n.label, n.color, n.r < 20 ? '9' : '10', 'middle'));
-            const { lx, ly, anchor } = externalLabel(n);
-            g.appendChild(makeTxt(lx, ly, n.label, n.color, '12', anchor, { spacing: '0.5', opacity: '0.7' }));
+            // Text-only leaf (BGP, OSPF, MPLS, WAF, DNS) — label inside circle only
+            g.appendChild(makeTxt(n.x, n.y + 1, n.label, n.color, n.r < 22 ? '10' : '11', 'middle'));
         }
 
         // Optional link wrapper (future-proof: add `link: "url"` to any node)
@@ -471,10 +489,13 @@ function buildMindMap() {
     });
     svg.appendChild(nodeLayer);
 
-    // ── CSS keyframes (injected into SVG) ──
+    // ── CSS keyframes + hover (injected into SVG) ──
     const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     style.textContent = `
-        .mm-node  { transform-box: fill-box; transform-origin: center; }
+        .mm-node  { transform-box: fill-box; transform-origin: center; cursor: default; }
+        .mm-node:hover circle { filter: url(#glow); transition: filter 0.3s; }
+        .mm-node:hover text   { opacity: 1 !important; }
+        .mm-centre:hover image { filter: brightness(1.15); }
         @keyframes mmFadeInLine { from { opacity: 0; } to { opacity: 0.45; } }
         @keyframes mmFadeIn     { from { opacity: 0; } to { opacity: 0.30; } }
         @keyframes mmDashFlow   { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -20; } }
@@ -485,6 +506,25 @@ function buildMindMap() {
     svg.appendChild(style);
 
     container.appendChild(svg);
+
+    // ── Mouse parallax: subtle float on hover ──
+    const heroVisual = container.closest('.hero-visual');
+    if (heroVisual) {
+        heroVisual.addEventListener('mousemove', (e) => {
+            const rect = heroVisual.getBoundingClientRect();
+            const mx = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+            const my = (e.clientY - rect.top) / rect.height - 0.5;
+            const tx = mx * 12;   // max ±6px shift
+            const ty = my * 10;
+            const rz = mx * 1.5;  // subtle tilt
+            svg.style.transition = 'transform 0.15s ease-out';
+            svg.style.transform = `translate(${tx}px, ${ty}px) rotateY(${rz}deg)`;
+        });
+        heroVisual.addEventListener('mouseleave', () => {
+            svg.style.transition = 'transform 0.5s ease-out';
+            svg.style.transform = 'translate(0,0) rotateY(0)';
+        });
+    }
 }
 
 

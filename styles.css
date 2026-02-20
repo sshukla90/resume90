@@ -270,9 +270,9 @@ body {
   z-index: 1;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: 6rem 5vw 4rem;
+  padding: 10rem 5vw 4rem;
   gap: 3rem;
 }
 
