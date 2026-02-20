@@ -123,7 +123,7 @@ function buildMindMap() {
 
     const W = 560, H = 560, cx = W / 2, cy = H / 2;
 
-    // Personal activity icons (Material Icons, 24×24 viewBox, filled paths)
+    // Personal activity icons (Material Icons 24×24)
     const personalIcons = {
         heart:     'M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z',
         runner:    'M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z',
@@ -131,7 +131,7 @@ function buildMindMap() {
         nutrition: 'M17 8C8 10 5.9 16.17 3.82 20.83L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20c9 0 12-8 12-8-4 0-8 4-8 4s1.5-4 5-5z',
     };
 
-    // 5 branches: 4 tech + 1 personal (warm, always visible but subtle)
+    // 5 branches — Automation & Security shifted left vs v1 to give labels breathing room
     const branches = [
         {
             id: 'cloud', label: 'Cloud', x: 280, y: 108, r: 30, color: '#3b8bff',
@@ -142,19 +142,19 @@ function buildMindMap() {
             ],
         },
         {
-            id: 'automation', label: 'Automation', x: 440, y: 200, r: 28, color: '#a78bfa',
+            id: 'automation', label: 'Automation', x: 420, y: 200, r: 28, color: '#a78bfa',
             leaves: [
-                { id: 'python', label: 'Python',    x: 492, y: 118, r: 20, color: '#3776ab', cdnSlug: 'python' },
-                { id: 'tf',     label: 'Terraform', x: 508, y: 212, r: 17, color: '#a78bfa' },
-                { id: 'iac',    label: 'IaC / Git', x: 472, y: 298, r: 16, color: '#c4b5fd' },
+                { id: 'python', label: 'Python',    x: 472, y: 118, r: 20, color: '#3776ab', cdnSlug: 'python' },
+                { id: 'tf',     label: 'Terraform', x: 488, y: 212, r: 17, color: '#a78bfa' },
+                { id: 'iac',    label: 'IaC / Git', x: 452, y: 292, r: 16, color: '#c4b5fd' },
             ],
         },
         {
-            id: 'security', label: 'Security', x: 400, y: 400, r: 27, color: '#ef4444',
+            id: 'security', label: 'Security', x: 392, y: 392, r: 27, color: '#ef4444',
             leaves: [
-                { id: 'waf', label: 'WAF',   x: 462, y: 340, r: 17, color: '#ef4444' },
-                { id: 'dns', label: 'DNS',   x: 462, y: 428, r: 17, color: '#06b6d4' },
-                { id: 'f5',  label: 'F5/FW', x: 390, y: 465, r: 16, color: '#facc15' },
+                { id: 'waf', label: 'WAF',   x: 450, y: 334, r: 17, color: '#ef4444' },
+                { id: 'dns', label: 'DNS',   x: 450, y: 422, r: 17, color: '#06b6d4' },
+                { id: 'f5',  label: 'F5/FW', x: 380, y: 460, r: 16, color: '#facc15' },
             ],
         },
         {
@@ -194,53 +194,115 @@ function buildMindMap() {
     `;
     svg.appendChild(defs);
 
-    // Quadratic bezier: midpoint control pulled slightly toward canvas centre
-    function qCurve(x1, y1, x2, y2, inward = 0.1) {
-        const mx = (x1 + x2) / 2 + (cx - (x1 + x2) / 2) * inward;
-        const my = (y1 + y2) / 2 + (cy - (y1 + y2) / 2) * inward;
+    // Quadratic bezier helper
+    function qCurve(x1, y1, x2, y2, pull = 0.08) {
+        const mx = (x1 + x2) / 2 + (cx - (x1 + x2) / 2) * pull;
+        const my = (y1 + y2) / 2 + (cy - (y1 + y2) / 2) * pull;
         return `M${x1},${y1} Q${mx},${my} ${x2},${y2}`;
     }
 
-    // --- Connection layer ---
-    const connLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    // External label: placed radially outward, edge-aware text-anchor
+    function externalLabelAttrs(n) {
+        const dx = n.x - cx, dy = n.y - cy;
+        const len = Math.hypot(dx, dy) || 1;
+        const ux = dx / len, uy = dy / len;
+        const gap = n.r + 14;
+        let lx = n.x + ux * gap;
+        let ly = n.y + uy * gap;
+        let anchor;
+
+        // Clamp right edge: label would overflow → flip to left of circle
+        if (lx > W - 55) { lx = n.x - (n.r + 11); anchor = 'end'; }
+        else if (lx < 18) { lx = n.x + (n.r + 11); anchor = 'start'; }
+        else if (ux > 0.42)  anchor = 'start';
+        else if (ux < -0.42) anchor = 'end';
+        else                  anchor = 'middle';
+
+        ly = Math.max(10, Math.min(H - 6, ly));
+        return { lx, ly, anchor };
+    }
+
+    // SVG text element builder
+    function makeTxt(x, y, text, color, fontSize, anchor) {
+        const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t.setAttribute('x', x); t.setAttribute('y', y);
+        t.setAttribute('text-anchor', anchor);
+        t.setAttribute('dominant-baseline', 'middle');
+        t.setAttribute('fill', color);
+        t.setAttribute('font-family', 'JetBrains Mono, monospace');
+        t.setAttribute('font-size', fontSize);
+        t.setAttribute('font-weight', '700');
+        t.textContent = text;
+        return t;
+    }
+
+    // --- Connection layer + animated data packets ---
+    const connLayer   = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    const packetLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+    function addPacket(pathD, color, dur, begin) {
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('r', '2.5');
+        dot.setAttribute('fill', color);
+        dot.setAttribute('filter', 'url(#glow)');
+        const motion = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+        motion.setAttribute('path', pathD);
+        motion.setAttribute('dur', `${dur}s`);
+        motion.setAttribute('repeatCount', 'indefinite');
+        motion.setAttribute('begin', `${begin}s`);
+        const fadeIn = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+        fadeIn.setAttribute('attributeName', 'opacity');
+        fadeIn.setAttribute('values', '0;0.85');
+        fadeIn.setAttribute('begin', `${begin}s`);
+        fadeIn.setAttribute('dur', '0.5s');
+        fadeIn.setAttribute('fill', 'freeze');
+        dot.appendChild(motion);
+        dot.appendChild(fadeIn);
+        packetLayer.appendChild(dot);
+    }
 
     branches.forEach((branch, bi) => {
         const isPersonal = !!branch.personal;
-        const delay = bi * 0.18;
+        const delay = bi * 0.2;
 
-        // Centre → Hub
+        // Centre → Hub path
+        const mainD = qCurve(cx, cy, branch.x, branch.y);
         const mainP = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        mainP.setAttribute('d', qCurve(cx, cy, branch.x, branch.y));
+        mainP.setAttribute('d', mainD);
         mainP.setAttribute('stroke', branch.color);
         mainP.setAttribute('stroke-width', isPersonal ? '1.5' : '2.2');
         mainP.setAttribute('fill', 'none');
         if (isPersonal) {
-            mainP.style.cssText = `stroke-dasharray:5 4; animation:mmFadeIn 0.9s ease-out ${delay}s both;`;
+            // Dotted: fade-in + slow continuous flow
+            mainP.style.cssText = `stroke-dasharray:3 5; animation:mmFadeIn 0.9s ease-out ${delay}s both, mmSlowFlow 4s linear ${delay}s infinite;`;
         } else {
-            mainP.setAttribute('pathLength', '100');
-            mainP.style.cssText = `opacity:0.4; stroke-dasharray:100 100; stroke-dashoffset:100; animation:mmPathGrow 1s ease-out ${delay}s both;`;
+            // Dashed: fade-in to full opacity, then continuous flow
+            mainP.style.cssText = `stroke-dasharray:5 4; animation:mmFadeInLine 0.9s ease-out ${delay}s both, mmDashFlow 3s linear ${delay}s infinite;`;
+            addPacket(mainD, branch.color, 3.2 + bi * 0.3, delay + 1);
         }
         connLayer.appendChild(mainP);
 
-        // Hub → Leaves
+        // Hub → Leaf paths
         branch.leaves.forEach((leaf, li) => {
+            const leafD = qCurve(branch.x, branch.y, leaf.x, leaf.y, 0);
             const leafP = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            leafP.setAttribute('d', qCurve(branch.x, branch.y, leaf.x, leaf.y, 0));
+            leafP.setAttribute('d', leafD);
             leafP.setAttribute('stroke', leaf.color);
             leafP.setAttribute('stroke-width', '1.2');
             leafP.setAttribute('fill', 'none');
-            const leafDelay = delay + 0.6 + li * 0.1;
+            const leafDelay = delay + 0.55 + li * 0.12;
             if (isPersonal) {
-                leafP.style.cssText = `stroke-dasharray:3 3; animation:mmFadeIn 0.7s ease-out ${leafDelay}s both;`;
+                leafP.style.cssText = `stroke-dasharray:3 5; animation:mmFadeIn 0.7s ease-out ${leafDelay}s both, mmSlowFlow 4s linear ${leafDelay}s infinite;`;
             } else {
-                leafP.setAttribute('pathLength', '100');
-                leafP.style.cssText = `opacity:0.28; stroke-dasharray:100 100; stroke-dashoffset:100; animation:mmPathGrow 0.7s ease-out ${leafDelay}s both;`;
+                leafP.style.cssText = `stroke-dasharray:5 4; animation:mmFadeInLine 0.7s ease-out ${leafDelay}s both, mmDashFlow 3s linear ${leafDelay}s infinite;`;
+                addPacket(leafD, leaf.color, 2.4 + li * 0.35, leafDelay + 0.7);
             }
             connLayer.appendChild(leafP);
         });
     });
 
     svg.appendChild(connLayer);
+    svg.appendChild(packetLayer);
 
     // --- Node layer ---
     const nodeLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -261,26 +323,14 @@ function buildMindMap() {
     centerCircle.setAttribute('stroke', '#3b8bff'); centerCircle.setAttribute('stroke-width', '2');
     centerCircle.setAttribute('filter', 'url(#softglow)');
 
-    const ct1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    ct1.setAttribute('x', cx); ct1.setAttribute('y', cy - 7);
-    ct1.setAttribute('text-anchor', 'middle'); ct1.setAttribute('dominant-baseline', 'middle');
-    ct1.setAttribute('fill', '#3b8bff'); ct1.setAttribute('font-family', 'Inter, sans-serif');
-    ct1.setAttribute('font-size', '18'); ct1.setAttribute('font-weight', '800');
-    ct1.textContent = 'SS';
-
-    const ct2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    ct2.setAttribute('x', cx); ct2.setAttribute('y', cy + 10);
-    ct2.setAttribute('text-anchor', 'middle'); ct2.setAttribute('dominant-baseline', 'middle');
-    ct2.setAttribute('fill', '#7dd3fc'); ct2.setAttribute('font-family', 'JetBrains Mono, monospace');
-    ct2.setAttribute('font-size', '6.5'); ct2.setAttribute('font-weight', '500');
-    ct2.textContent = '12+ years';
-
-    centerG.appendChild(outerRing); centerG.appendChild(centerCircle);
-    centerG.appendChild(ct1); centerG.appendChild(ct2);
+    centerG.appendChild(outerRing);
+    centerG.appendChild(centerCircle);
+    centerG.appendChild(makeTxt(cx, cy - 7, 'SS',        '#3b8bff', '18', 'middle'));
+    centerG.appendChild(makeTxt(cx, cy + 11, '12+ years', '#7dd3fc', '7',  'middle'));
     centerG.style.animation = 'mmNodeIn 0.5s ease-out 0s both';
     nodeLayer.appendChild(centerG);
 
-    // Helper: render one branch hub or leaf node
+    // Render one node (hub or leaf)
     function drawNode(n, delay, isPersonal) {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         g.setAttribute('class', 'mm-node');
@@ -302,33 +352,28 @@ function buildMindMap() {
         g.appendChild(ring);
         g.appendChild(body);
 
+        const isHub = n.r >= 25;
+
         if (n.localIcon || n.cdnSlug) {
-            // Brand icon (Cloudflare, AWS, Azure, Python)
-            const iconUrl = n.localIcon
+            // Brand icon: fills circle, label goes OUTSIDE
+            const url = n.localIcon
                 ? n.localIcon
                 : `https://cdn.simpleicons.org/${n.cdnSlug}/${n.color.replace('#', '')}`;
-            const sz = n.r * 1.05;
+            const sz = n.r * 1.18;
             const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-            img.setAttribute('href', iconUrl);
-            img.setAttribute('x', n.x - sz / 2); img.setAttribute('y', n.y - sz / 2 - n.r * 0.14);
+            img.setAttribute('href', url);
+            img.setAttribute('x', n.x - sz / 2); img.setAttribute('y', n.y - sz / 2);
             img.setAttribute('width', sz); img.setAttribute('height', sz);
             img.setAttribute('preserveAspectRatio', 'xMidYMid meet');
             g.appendChild(img);
-
-            const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            lbl.setAttribute('x', n.x); lbl.setAttribute('y', n.y + n.r * 0.72);
-            lbl.setAttribute('text-anchor', 'middle'); lbl.setAttribute('dominant-baseline', 'middle');
-            lbl.setAttribute('fill', n.color); lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
-            lbl.setAttribute('font-size', Math.max(5, Math.round(n.r * 0.28)));
-            lbl.setAttribute('font-weight', '700');
-            lbl.textContent = n.label;
-            g.appendChild(lbl);
+            const { lx, ly, anchor } = externalLabelAttrs(n);
+            g.appendChild(makeTxt(lx, ly, n.label, n.color, '10', anchor));
 
         } else if (n.personalIcon && personalIcons[n.personalIcon]) {
-            // Personal activity icon (filled path)
-            const sz = n.r * 1.05;
+            // Personal icon: fills circle, label goes OUTSIDE
+            const sz = n.r * 1.12;
             const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            wrap.setAttribute('x', n.x - sz / 2); wrap.setAttribute('y', n.y - sz / 2 - n.r * 0.12);
+            wrap.setAttribute('x', n.x - sz / 2); wrap.setAttribute('y', n.y - sz / 2);
             wrap.setAttribute('width', sz); wrap.setAttribute('height', sz);
             wrap.setAttribute('viewBox', '0 0 24 24');
             const ip = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -336,26 +381,17 @@ function buildMindMap() {
             ip.setAttribute('fill', n.color); ip.setAttribute('opacity', '0.85');
             wrap.appendChild(ip);
             g.appendChild(wrap);
+            const { lx, ly, anchor } = externalLabelAttrs(n);
+            g.appendChild(makeTxt(lx, ly, n.label, n.color, '10', anchor));
 
-            const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            lbl.setAttribute('x', n.x); lbl.setAttribute('y', n.y + n.r * 0.75);
-            lbl.setAttribute('text-anchor', 'middle'); lbl.setAttribute('dominant-baseline', 'middle');
-            lbl.setAttribute('fill', n.color); lbl.setAttribute('font-family', 'JetBrains Mono, monospace');
-            lbl.setAttribute('font-size', Math.max(5, Math.round(n.r * 0.29)));
-            lbl.setAttribute('font-weight', '700');
-            lbl.textContent = n.label;
-            g.appendChild(lbl);
+        } else if (isHub) {
+            // Hub text node (Cloud, Network, Automation, Security): label INSIDE at 10px
+            g.appendChild(makeTxt(n.x, n.y, n.label, n.color, '10', 'middle'));
 
         } else {
-            // Text-only node (protocol names + hub labels)
-            const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            txt.setAttribute('x', n.x); txt.setAttribute('y', n.y + 1);
-            txt.setAttribute('text-anchor', 'middle'); txt.setAttribute('dominant-baseline', 'middle');
-            txt.setAttribute('fill', n.color); txt.setAttribute('font-family', 'JetBrains Mono, monospace');
-            txt.setAttribute('font-size', Math.min(9, Math.max(6, Math.round(n.r * 0.3))));
-            txt.setAttribute('font-weight', '700');
-            txt.textContent = n.label;
-            g.appendChild(txt);
+            // Leaf text node (BGP, OSPF, MPLS, Terraform, IaC/Git): label OUTSIDE at 10px
+            const { lx, ly, anchor } = externalLabelAttrs(n);
+            g.appendChild(makeTxt(lx, ly, n.label, n.color, '10', anchor));
         }
 
         g.style.animation = `mmNodeIn 0.45s ease-out ${delay}s both`;
@@ -364,10 +400,10 @@ function buildMindMap() {
 
     branches.forEach((branch, bi) => {
         const isPersonal = !!branch.personal;
-        const hubDelay = bi * 0.18 + 0.3;
+        const hubDelay = bi * 0.2 + 0.3;
         nodeLayer.appendChild(drawNode(branch, hubDelay, isPersonal));
         branch.leaves.forEach((leaf, li) => {
-            nodeLayer.appendChild(drawNode(leaf, hubDelay + 0.5 + li * 0.1, isPersonal));
+            nodeLayer.appendChild(drawNode(leaf, hubDelay + 0.5 + li * 0.12, isPersonal));
         });
     });
 
@@ -376,11 +412,13 @@ function buildMindMap() {
     // CSS keyframes injected into SVG
     const style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     style.textContent = `
-        .mm-node { transform-box: fill-box; transform-origin: center; }
-        @keyframes mmPathGrow  { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
-        @keyframes mmFadeIn    { from { opacity: 0; } to { opacity: 0.3; } }
-        @keyframes mmRingPulse { 0%,100%{opacity:.08} 50%{opacity:.28} }
-        @keyframes mmNodeIn    { from { opacity:0; transform:scale(0.35); } to { opacity:1; transform:scale(1); } }
+        .mm-node  { transform-box: fill-box; transform-origin: center; }
+        @keyframes mmFadeInLine { from { opacity: 0; } to { opacity: 0.42; } }
+        @keyframes mmFadeIn     { from { opacity: 0; } to { opacity: 0.30; } }
+        @keyframes mmDashFlow   { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -18; } }
+        @keyframes mmSlowFlow   { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -16; } }
+        @keyframes mmRingPulse  { 0%,100%{opacity:.08} 50%{opacity:.28} }
+        @keyframes mmNodeIn     { from { opacity:0; transform:scale(0.35); } to { opacity:1; transform:scale(1); } }
     `;
     svg.appendChild(style);
 
