@@ -135,6 +135,7 @@ function buildMindMap() {
     const branches = [
         {
             id: 'cloud', label: 'Cloud', x: 280, y: 108, r: 30, color: '#3b8bff',
+            hubIcon: 'M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z',
             leaves: [
                 { id: 'cf',    label: 'Cloudflare', x: 182, y: 48,  r: 24, color: '#f6821f', cdnSlug: 'cloudflare' },
                 { id: 'aws',   label: 'AWS',        x: 285, y: 38,  r: 21, color: '#ff9900', localIcon: 'icons/aws-clean.svg' },
@@ -143,6 +144,7 @@ function buildMindMap() {
         },
         {
             id: 'automation', label: 'Automation', x: 420, y: 200, r: 28, color: '#a78bfa',
+            hubIcon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
             leaves: [
                 { id: 'python', label: 'Python',    x: 472, y: 118, r: 20, color: '#3776ab', cdnSlug: 'python' },
                 { id: 'tf',     label: 'Terraform', x: 488, y: 212, r: 17, color: '#a78bfa' },
@@ -151,6 +153,7 @@ function buildMindMap() {
         },
         {
             id: 'security', label: 'Security', x: 392, y: 392, r: 27, color: '#ef4444',
+            hubIcon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
             leaves: [
                 { id: 'waf', label: 'WAF',   x: 450, y: 334, r: 17, color: '#ef4444' },
                 { id: 'dns', label: 'DNS',   x: 450, y: 422, r: 17, color: '#06b6d4' },
@@ -168,6 +171,7 @@ function buildMindMap() {
         },
         {
             id: 'network', label: 'Network', x: 92, y: 208, r: 30, color: '#00e5ff',
+            hubIcon: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
             leaves: [
                 { id: 'bgp',  label: 'BGP',  x: 36, y: 140, r: 20, color: '#00e5ff' },
                 { id: 'ospf', label: 'OSPF', x: 28, y: 232, r: 17, color: '#7dd3fc' },
@@ -222,8 +226,23 @@ function buildMindMap() {
         return { lx, ly, anchor };
     }
 
+    // Hub label: placed radially INWARD (toward center) — uses the spoke space
+    function hubLabelAttrs(n) {
+        const dx = n.x - cx, dy = n.y - cy;
+        const len = Math.hypot(dx, dy) || 1;
+        const ux = dx / len, uy = dy / len;
+        const gap = n.r + 16;
+        const lx = n.x - ux * gap;
+        const ly = Math.max(10, Math.min(H - 6, n.y - uy * gap));
+        let anchor;
+        if (ux > 0.42)       anchor = 'end';
+        else if (ux < -0.42) anchor = 'start';
+        else                  anchor = 'middle';
+        return { lx, ly, anchor };
+    }
+
     // SVG text element builder
-    function makeTxt(x, y, text, color, fontSize, anchor) {
+    function makeTxt(x, y, text, color, fontSize, anchor, letterSpacing) {
         const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         t.setAttribute('x', x); t.setAttribute('y', y);
         t.setAttribute('text-anchor', anchor);
@@ -232,6 +251,7 @@ function buildMindMap() {
         t.setAttribute('font-family', 'JetBrains Mono, monospace');
         t.setAttribute('font-size', fontSize);
         t.setAttribute('font-weight', '700');
+        if (letterSpacing) t.setAttribute('letter-spacing', letterSpacing);
         t.textContent = text;
         return t;
     }
@@ -352,8 +372,6 @@ function buildMindMap() {
         g.appendChild(ring);
         g.appendChild(body);
 
-        const isHub = n.r >= 25;
-
         if (n.localIcon || n.cdnSlug) {
             // Brand icon: fills circle, label goes OUTSIDE
             const url = n.localIcon
@@ -367,7 +385,7 @@ function buildMindMap() {
             img.setAttribute('preserveAspectRatio', 'xMidYMid meet');
             g.appendChild(img);
             const { lx, ly, anchor } = externalLabelAttrs(n);
-            g.appendChild(makeTxt(lx, ly, n.label, n.color, '10', anchor));
+            g.appendChild(makeTxt(lx, ly, n.label, n.color, '11', anchor, '0.5'));
 
         } else if (n.personalIcon && personalIcons[n.personalIcon]) {
             // Personal icon: fills circle, label goes OUTSIDE
@@ -382,16 +400,32 @@ function buildMindMap() {
             wrap.appendChild(ip);
             g.appendChild(wrap);
             const { lx, ly, anchor } = externalLabelAttrs(n);
-            g.appendChild(makeTxt(lx, ly, n.label, n.color, '10', anchor));
+            g.appendChild(makeTxt(lx, ly, n.label, n.color, '11', anchor, '0.5'));
 
-        } else if (isHub) {
-            // Hub text node (Cloud, Network, Automation, Security): label INSIDE at 10px
-            g.appendChild(makeTxt(n.x, n.y, n.label, n.color, '10', 'middle'));
+        } else if (n.hubIcon) {
+            // Tech hub: Feather stroke icon inside + label inward on spoke
+            const sz = n.r * 1.3;
+            const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            wrap.setAttribute('x', n.x - sz / 2); wrap.setAttribute('y', n.y - sz / 2);
+            wrap.setAttribute('width', sz); wrap.setAttribute('height', sz);
+            wrap.setAttribute('viewBox', '0 0 24 24');
+            const ip = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            ip.setAttribute('d', n.hubIcon);
+            ip.setAttribute('fill', 'none');
+            ip.setAttribute('stroke', n.color);
+            ip.setAttribute('stroke-width', '1.8');
+            ip.setAttribute('stroke-linecap', 'round');
+            ip.setAttribute('stroke-linejoin', 'round');
+            ip.setAttribute('opacity', '0.9');
+            wrap.appendChild(ip);
+            g.appendChild(wrap);
+            const { lx, ly, anchor } = hubLabelAttrs(n);
+            g.appendChild(makeTxt(lx, ly, n.label, n.color, '11', anchor, '0.5'));
 
         } else {
-            // Leaf text node (BGP, OSPF, MPLS, Terraform, IaC/Git): label OUTSIDE at 10px
+            // Leaf text node (BGP, OSPF, MPLS, Terraform, IaC/Git): label OUTSIDE
             const { lx, ly, anchor } = externalLabelAttrs(n);
-            g.appendChild(makeTxt(lx, ly, n.label, n.color, '10', anchor));
+            g.appendChild(makeTxt(lx, ly, n.label, n.color, '11', anchor, '0.5'));
         }
 
         g.style.animation = `mmNodeIn 0.45s ease-out ${delay}s both`;
