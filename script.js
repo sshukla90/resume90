@@ -383,13 +383,9 @@ document.querySelectorAll('.skill-tags span, .tech-tag').forEach(tag => {
     let i = 0, j = 0, deleting = false;
     const originalText = badge.textContent.trim();
 
-    // Create a span slot without the bullet
+    // Clear badge text, keep just the typing slot (dot is handled by ::before CSS)
     badge.textContent = '';
-    const dot = document.createElement('span');
-    dot.className = 'badge-dot';
-    dot.style.cssText = 'display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-right:6px;animation:pulse 2s infinite;flex-shrink:0;';
     const slot = document.createElement('span');
-    badge.appendChild(dot);
     badge.appendChild(slot);
 
     function tick() {
